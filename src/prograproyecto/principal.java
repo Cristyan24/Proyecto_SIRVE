@@ -32,7 +32,6 @@ public class principal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         PanelContenido = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,8 +89,6 @@ public class principal extends javax.swing.JFrame {
 
         jButton4.setText("Estadistica");
 
-        jButton5.setText("Salir");
-
         javax.swing.GroupLayout PanelContenidoLayout = new javax.swing.GroupLayout(PanelContenido);
         PanelContenido.setLayout(PanelContenidoLayout);
         PanelContenidoLayout.setHorizontalGroup(
@@ -113,13 +110,11 @@ public class principal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton5)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jButton4)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButton3)
-                                            .addComponent(jButton2)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton4)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButton3)
+                                        .addComponent(jButton2))))
                             .addComponent(jButton1)
                             .addComponent(InsertarVehiculo, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(6, 6, 6)
@@ -155,9 +150,7 @@ public class principal extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addGap(31, 31, 31)
                         .addComponent(jButton4)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton5)
-                        .addGap(160, 160, 160))
+                        .addGap(209, 209, 209))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(Carpeta)
@@ -251,7 +244,6 @@ if (opcion == JFileChooser.APPROVE_OPTION) {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
