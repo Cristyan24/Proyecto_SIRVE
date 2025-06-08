@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 public class principal extends javax.swing.JFrame {
@@ -95,13 +96,20 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CargarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarArchivosActionPerformed
-         String rutaCarpeta = "C:\\Users\\user\\Desktop\\SIRVE_Datos_Vehiculos DataSet\\SIRVE_Datos_Vehiculos DataSet"; // ← cambia esto por la ruta real
+         JFileChooser fileChooser = new JFileChooser();
+fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Solo carpetas
+int seleccion = fileChooser.showOpenDialog(this);
+
+if (seleccion == JFileChooser.APPROVE_OPTION) {
+    File carpetaSeleccionada = fileChooser.getSelectedFile();
+    String rutaCarpeta = carpetaSeleccionada.getAbsolutePath();
+    
+    System.out.println("Carpeta seleccionada: " + rutaCarpeta); // Debug
 
     ABB arbolVehiculos = CargadorVehiculos.cargarVehiculosDesdeCarpetas(rutaCarpeta);
 
-    // Ahora recorreremos el árbol e insertaremos cada vehículo en la tabla
-    DefaultTableModel modelo = (DefaultTableModel) TablaVehiculos.getModel(); // ← tu tabla debe tener ese nombre
-    modelo.setRowCount(0); // limpiar tabla
+    DefaultTableModel modelo = (DefaultTableModel) TablaVehiculos.getModel();
+    modelo.setRowCount(0);
 
     arbolVehiculos.inOrden(vehiculo -> {
         Object[] fila = {
@@ -116,6 +124,7 @@ public class principal extends javax.swing.JFrame {
         };
         modelo.addRow(fila);
     });
+}
     }//GEN-LAST:event_CargarArchivosActionPerformed
 
 
