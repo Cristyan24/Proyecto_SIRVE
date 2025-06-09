@@ -9,11 +9,10 @@ package prograproyecto;
  * @author user
  */
 public class NodoABB {
-    public Vehiculos dato;
-    public NodoABB izquierda;
-    public NodoABB derecha;
+    Vehiculo dato;
+    NodoABB izquierda, derecha;
 
-    public NodoABB(Vehiculos dato) {
+    public NodoABB(Vehiculo dato) {
         this.dato = dato;
         this.izquierda = null;
         this.derecha = null;

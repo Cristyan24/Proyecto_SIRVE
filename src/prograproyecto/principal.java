@@ -7,13 +7,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class principal extends javax.swing.JFrame {
 
+    private ABB abb = new ABB(); // o AVL
+    private Map<String, Vehiculo> mapaVehiculos = new HashMap<>();
     public principal() {
         initComponents();
+        
     }
 
 
@@ -23,8 +29,8 @@ public class principal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        CargarArchivos = new javax.swing.JButton();
-        PanelTabla = new javax.swing.JPanel();
+        Vehiculos = new javax.swing.JButton();
+        PanelContenido = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaVehiculos = new javax.swing.JTable();
         Fondo = new javax.swing.JLabel();
@@ -38,13 +44,15 @@ public class principal extends javax.swing.JFrame {
         jLabel1.setText("PROGRAMA SIRVE");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, -1));
 
-        CargarArchivos.setText("Cargar Archivos");
-        CargarArchivos.addActionListener(new java.awt.event.ActionListener() {
+        Vehiculos.setText("Vehiculos");
+        Vehiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CargarArchivosActionPerformed(evt);
+                VehiculosActionPerformed(evt);
             }
         });
-        jPanel1.add(CargarArchivos, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, -1, -1));
+        jPanel1.add(Vehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
+
+        PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
         TablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -59,24 +67,24 @@ public class principal extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TablaVehiculos);
 
-        javax.swing.GroupLayout PanelTablaLayout = new javax.swing.GroupLayout(PanelTabla);
-        PanelTabla.setLayout(PanelTablaLayout);
-        PanelTablaLayout.setHorizontalGroup(
-            PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTablaLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
-        );
-        PanelTablaLayout.setVerticalGroup(
-            PanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTablaLayout.createSequentialGroup()
+        javax.swing.GroupLayout PanelContenidoLayout = new javax.swing.GroupLayout(PanelContenido);
+        PanelContenido.setLayout(PanelContenidoLayout);
+        PanelContenidoLayout.setHorizontalGroup(
+            PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelContenidoLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
+        );
+        PanelContenidoLayout.setVerticalGroup(
+            PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelContenidoLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jPanel1.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 710, 240));
+        jPanel1.add(PanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, 720, 220));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/carro.jpg"))); // NOI18N
         jPanel1.add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 680));
@@ -95,37 +103,70 @@ public class principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CargarArchivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarArchivosActionPerformed
-         JFileChooser fileChooser = new JFileChooser();
-fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Solo carpetas
-int seleccion = fileChooser.showOpenDialog(this);
+    private void VehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosActionPerformed
+         JFileChooser chooser = new JFileChooser();
+    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-if (seleccion == JFileChooser.APPROVE_OPTION) {
-    File carpetaSeleccionada = fileChooser.getSelectedFile();
-    String rutaCarpeta = carpetaSeleccionada.getAbsolutePath();
-    
-    System.out.println("Carpeta seleccionada: " + rutaCarpeta); // Debug
+    int opcion = chooser.showOpenDialog(this);
+    if (opcion == JFileChooser.APPROVE_OPTION) {
+        File carpeta = chooser.getSelectedFile();
+        File[] archivos = carpeta.listFiles();
 
-    ABB arbolVehiculos = CargadorVehiculos.cargarVehiculosDesdeCarpetas(rutaCarpeta);
+        if (archivos != null) {
+            for (File archivo : archivos) {
+                String nombre = archivo.getName().toLowerCase();
+                if (nombre.endsWith("_vehiculos.txt")) {
+                    cargarVehiculosDesdeArchivo(archivo);
+                }
+            }
+        }
 
+        for (Vehiculo v : mapaVehiculos.values()) {
+            abb.insertar(v); // o avl.insertar(v);
+        }
+
+        mostrarVehiculosEnTabla();
+    }
+
+    }//GEN-LAST:event_VehiculosActionPerformed
+        
+    private void cargarVehiculosDesdeArchivo(File archivo) {
+    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(",");
+            if (datos.length >= 6) {
+                Vehiculo v = new Vehiculo(
+                    datos[0], // Placa
+                    datos[1], // DPI
+                    datos[2], // Nombre
+                    datos[3], // Marca
+                    datos[4], // Modelo
+                    datos[5]  // Año
+                );
+                mapaVehiculos.put(v.getPlaca(), v);
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al leer archivo: " + archivo.getName());
+        e.printStackTrace();
+    }
+}
+
+    private void mostrarVehiculosEnTabla() {
     DefaultTableModel modelo = (DefaultTableModel) TablaVehiculos.getModel();
     modelo.setRowCount(0);
 
-    arbolVehiculos.inOrden(vehiculo -> {
-        Object[] fila = {
-            vehiculo.placa,
-            vehiculo.dpi,
-            vehiculo.nombre,
-            vehiculo.marca,
-            vehiculo.modelo,
-            vehiculo.anio,
-            vehiculo.multas,
-            vehiculo.traspasos
-        };
-        modelo.addRow(fila);
-    });
+    List<Vehiculo> lista = new ArrayList<>();
+    abb.inorden(lista); // o avl.inorden(lista)
+
+    for (Vehiculo v : lista) {
+        modelo.addRow(new Object[]{
+            v.getPlaca(), v.getDpi(), v.getNombre(),
+            v.getMarca(), v.getModelo(), v.getAño()
+        });
+    }
 }
-    }//GEN-LAST:event_CargarArchivosActionPerformed
 
 
     public static void main(String args[]) {
@@ -160,56 +201,14 @@ if (seleccion == JFileChooser.APPROVE_OPTION) {
         });
     }
     
- public class CargadorVehiculos {
 
-    public static ABB cargarVehiculosDesdeCarpetas(String rutaCarpeta) {
-        ABB arbol = new ABB();
-
-        File carpetaPrincipal = new File(rutaCarpeta);
-        File[] carpetasDepartamentos = carpetaPrincipal.listFiles(File::isDirectory);
-
-        if (carpetasDepartamentos != null) {
-            for (File carpeta : carpetasDepartamentos) {
-                File[] archivos = carpeta.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-                if (archivos != null) {
-                    for (File archivo : archivos) {
-                        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                            String linea;
-                            while ((linea = br.readLine()) != null) {
-                                String[] partes = linea.split(",");
-                                if (partes.length == 8) {
-                                    String placa = partes[0];
-                                    String dpi = partes[1];
-                                    String nombre = partes[2];
-                                    String marca = partes[3];
-                                    String modelo = partes[4];
-                                    int anio = Integer.parseInt(partes[5]);
-                                    int multas = Integer.parseInt(partes[6]);
-                                    int traspasos = Integer.parseInt(partes[7]);
-
-                                    Vehiculos vehiculo = new Vehiculos(placa, dpi, nombre, marca, modelo, anio, multas, traspasos);
-                                    arbol.insertar(vehiculo);
-                                }
-                            }
-                        } catch (IOException | NumberFormatException e) {
-                            System.out.println("Error leyendo archivo: " + archivo.getName());
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
-
-        return arbol;
-    }
-}
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CargarArchivos;
     private javax.swing.JLabel Fondo;
-    private javax.swing.JPanel PanelTabla;
+    private javax.swing.JPanel PanelContenido;
     private javax.swing.JTable TablaVehiculos;
+    private javax.swing.JButton Vehiculos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

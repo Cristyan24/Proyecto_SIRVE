@@ -4,6 +4,7 @@
  */
 package prograproyecto;
 
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -11,36 +12,41 @@ import java.util.function.Consumer;
  * @author user
  */
 public class ABB {
-    public NodoABB raiz;
+    private class Nodo {
+        Vehiculo vehiculo;
+        Nodo izquierdo, derecho;
 
-    public void insertar(Vehiculos nuevo) {
-        raiz = insertarRec(raiz, nuevo);
+        Nodo(Vehiculo v) {
+            this.vehiculo = v;
+        }
     }
 
-    private NodoABB insertarRec(NodoABB actual, Vehiculos nuevo) {
-        if (actual == null) {
-            return new NodoABB(nuevo);
-        }
+    private Nodo raiz;
 
-        if (nuevo.compareTo(actual.dato) < 0) {
-            actual.izquierda = insertarRec(actual.izquierda, nuevo);
-        } else if (nuevo.compareTo(actual.dato) > 0) {
-            actual.derecha = insertarRec(actual.derecha, nuevo);
-        }
+    public void insertar(Vehiculo v) {
+        raiz = insertarRec(raiz, v);
+    }
 
+    private Nodo insertarRec(Nodo actual, Vehiculo v) {
+        if (actual == null) return new Nodo(v);
+
+        int cmp = v.getPlaca().compareTo(actual.vehiculo.getPlaca());
+        if (cmp < 0)
+            actual.izquierdo = insertarRec(actual.izquierdo, v);
+        else if (cmp > 0)
+            actual.derecho = insertarRec(actual.derecho, v);
         return actual;
     }
 
-    // Recorrido inOrden que acepta una función para procesar cada nodo
-    public void inOrden(Consumer<Vehiculos> accion) {
-        inOrdenRec(raiz, accion);
+    public void inorden(List<Vehiculo> lista) {
+        inordenRec(raiz, lista);
     }
 
-    private void inOrdenRec(NodoABB nodo, Consumer<Vehiculos> accion) {
-        if (nodo != null) {
-            inOrdenRec(nodo.izquierda, accion);
-            accion.accept(nodo.dato);
-            inOrdenRec(nodo.derecha, accion);
+    private void inordenRec(Nodo actual, List<Vehiculo> lista) {
+        if (actual != null) {
+            inordenRec(actual.izquierdo, lista);
+            lista.add(actual.vehiculo);
+            inordenRec(actual.derecho, lista);
         }
     }
 }
