@@ -1,22 +1,10 @@
 
 package prograproyecto;
 
-import java.awt.List;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+
 
 public class principal extends javax.swing.JFrame {
 
-    private ABB abb = new ABB(); // o AVL
-    private Map<String, Vehiculo> mapaVehiculos = new HashMap<>();
     public principal() {
         initComponents();
         
@@ -29,6 +17,7 @@ public class principal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         Vehiculos = new javax.swing.JButton();
         PanelContenido = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -44,13 +33,21 @@ public class principal extends javax.swing.JFrame {
         jLabel1.setText("PROGRAMA SIRVE");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, -1));
 
+        jButton1.setText("Cargar Archivos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
+
         Vehiculos.setText("Vehiculos");
         Vehiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VehiculosActionPerformed(evt);
             }
         });
-        jPanel1.add(Vehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
+        jPanel1.add(Vehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, -1, -1));
 
         PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
@@ -104,69 +101,17 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void VehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosActionPerformed
-         JFileChooser chooser = new JFileChooser();
-    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-    int opcion = chooser.showOpenDialog(this);
-    if (opcion == JFileChooser.APPROVE_OPTION) {
-        File carpeta = chooser.getSelectedFile();
-        File[] archivos = carpeta.listFiles();
-
-        if (archivos != null) {
-            for (File archivo : archivos) {
-                String nombre = archivo.getName().toLowerCase();
-                if (nombre.endsWith("_vehiculos.txt")) {
-                    cargarVehiculosDesdeArchivo(archivo);
-                }
-            }
-        }
-
-        for (Vehiculo v : mapaVehiculos.values()) {
-            abb.insertar(v); // o avl.insertar(v);
-        }
-
-        mostrarVehiculosEnTabla();
-    }
+         
 
     }//GEN-LAST:event_VehiculosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
         
-    private void cargarVehiculosDesdeArchivo(File archivo) {
-    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-        String linea;
-        while ((linea = br.readLine()) != null) {
-            String[] datos = linea.split(",");
-            if (datos.length >= 6) {
-                Vehiculo v = new Vehiculo(
-                    datos[0], // Placa
-                    datos[1], // DPI
-                    datos[2], // Nombre
-                    datos[3], // Marca
-                    datos[4], // Modelo
-                    datos[5]  // Año
-                );
-                mapaVehiculos.put(v.getPlaca(), v);
-            }
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error al leer archivo: " + archivo.getName());
-        e.printStackTrace();
-    }
-}
+   
 
-    private void mostrarVehiculosEnTabla() {
-    DefaultTableModel modelo = (DefaultTableModel) TablaVehiculos.getModel();
-    modelo.setRowCount(0);
 
-    List<Vehiculo> lista = new ArrayList<>();
-    abb.inorden(lista); // o avl.inorden(lista)
-
-    for (Vehiculo v : lista) {
-        modelo.addRow(new Object[]{
-            v.getPlaca(), v.getDpi(), v.getNombre(),
-            v.getMarca(), v.getModelo(), v.getAño()
-        });
-    }
-}
 
 
     public static void main(String args[]) {
@@ -209,6 +154,7 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JPanel PanelContenido;
     private javax.swing.JTable TablaVehiculos;
     private javax.swing.JButton Vehiculos;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
