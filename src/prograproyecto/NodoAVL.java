@@ -8,11 +8,13 @@ package prograproyecto;
  *
  * @author user
  */
-public class NodoABB {
+public class NodoAVL {
     Vehiculo vehiculo;
-    NodoABB izquierda, derecha;
+    NodoAVL izquierda, derecha;
+    int altura;
 
-    public NodoABB(Vehiculo vehiculo) {
+    public NodoAVL(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
+        this.altura = 1;
     }
 }

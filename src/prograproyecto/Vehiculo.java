@@ -1,28 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package prograproyecto;
 
-/**
- *
- * @author user
- */
 public class Vehiculo {
-     private String placa;
-    private String dpi;
-    private String nombre;
-    private String marca;
-    private String modelo;
-    private String año;
+    private String placa, dpi, nombre, marca, modelo;
+    private int año, multas, traspasos;
 
-    public Vehiculo(String placa, String dpi, String nombre, String marca, String modelo, String año) {
-        this.placa = placa;
-        this.dpi = dpi;
-        this.nombre = nombre;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.año = año;
+    public Vehiculo(String[] datos) {
+        this.placa = datos[0];
+        this.dpi = datos[1];
+        this.nombre = datos[2];
+        this.marca = datos[3];
+        this.modelo = datos[4];
+        this.año = Integer.parseInt(datos[5]);
+        this.multas = (datos.length > 6) ? Integer.parseInt(datos[6]) : 0;
+        this.traspasos = (datos.length > 7) ? Integer.parseInt(datos[7]) : 0;
     }
 
     public String getPlaca() { return placa; }
@@ -30,5 +21,8 @@ public class Vehiculo {
     public String getNombre() { return nombre; }
     public String getMarca() { return marca; }
     public String getModelo() { return modelo; }
-    public String getAño() { return año; }
+    public int getAño() { return año; }
+    public int getMultas() { return multas; }
+    public int getTraspasos() { return traspasos; }
 }
+
