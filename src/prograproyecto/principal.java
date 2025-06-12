@@ -37,6 +37,7 @@ public class principal extends javax.swing.JFrame {
         VehiculosAVL = new javax.swing.JButton();
         CargaABByAVL = new javax.swing.JButton();
         VehiculosABB = new javax.swing.JButton();
+        comboDepartamento = new javax.swing.JComboBox<>();
         PanelContenido = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaVehiculos = new javax.swing.JTable();
@@ -52,6 +53,11 @@ public class principal extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, -1));
 
         VehiculosAVL.setText("Vehiculos en AVL");
+        VehiculosAVL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VehiculosAVLActionPerformed(evt);
+            }
+        });
         jPanel1.add(VehiculosAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, -1, -1));
 
         CargaABByAVL.setText("Cargar Archivos");
@@ -69,6 +75,9 @@ public class principal extends javax.swing.JFrame {
             }
         });
         jPanel1.add(VehiculosABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
+
+        comboDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(comboDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 100, -1, -1));
 
         PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
@@ -122,17 +131,19 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void VehiculosABBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosABBActionPerformed
-        List<Vehiculo> lista = new ArrayList<>();
-        abb.inorden(lista); // o avl.inorden(lista) si prefieres
+        String seleccionado = (String) comboDepartamento.getSelectedItem();
+    List<Vehiculo> lista = new ArrayList<>();
+    abb.inorden(lista);
 
-        modelo.setRowCount(0); // Limpia la tabla
-
+    modelo.setRowCount(0);
     for (Vehiculo v : lista) {
-        modelo.addRow(new Object[]{
-            v.getPlaca(), v.getDpi(), v.getNombre(),
-            v.getMarca(), v.getModelo(), v.getAño(),
-            v.getMultas(), v.getTraspasos()
-        });
+        if (v.getDepartamento().equalsIgnoreCase(seleccionado)) {
+            modelo.addRow(new Object[]{
+                v.getPlaca(), v.getDpi(), v.getNombre(),
+                v.getMarca(), v.getModelo(), v.getAño(),
+                v.getMultas(), v.getTraspasos()
+            });
+        }
     }
 
     }//GEN-LAST:event_VehiculosABBActionPerformed
@@ -148,40 +159,58 @@ public class principal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Archivos cargados en ABB y AVL.");
     }
     }//GEN-LAST:event_CargaABByAVLActionPerformed
+
+    private void VehiculosAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosAVLActionPerformed
+        String seleccionado = (String) comboDepartamento.getSelectedItem();
+    List<Vehiculo> lista = new ArrayList<>();
+    avl.inorden(lista);
+
+    modelo.setRowCount(0);
+    for (Vehiculo v : lista) {
+        if (v.getDepartamento().equalsIgnoreCase(seleccionado)) {
+            modelo.addRow(new Object[]{
+                v.getPlaca(), v.getDpi(), v.getNombre(),
+                v.getMarca(), v.getModelo(), v.getAño(),
+                v.getMultas(), v.getTraspasos()
+            });
+        }
+    }
+    }//GEN-LAST:event_VehiculosAVLActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
     File[] carpetas = carpetaRaiz.listFiles(File::isDirectory);
 
     if (carpetas != null) {
+        comboDepartamento.removeAllItems(); // Limpia combo previo
         for (File carpeta : carpetas) {
-            File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith("_vehiculos.txt"));
+            String nombreDepartamento = carpeta.getName();
+            comboDepartamento.addItem(nombreDepartamento); // Agrega al combo
 
+            File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith("_vehiculos.txt"));
             if (archivos != null) {
                 for (File archivo : archivos) {
                     try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
                         String linea;
                         while ((linea = br.readLine()) != null) {
-                            if (linea.toLowerCase().contains("placa") && linea.toLowerCase().contains("modelo")) {
-                                continue;
-                            }
+                            if (linea.toLowerCase().contains("placa") && linea.toLowerCase().contains("modelo")) continue;
 
                             String[] datos = linea.split(",");
                             if (datos.length >= 6) {
-                                Vehiculo v = new Vehiculo(datos);
+                                Vehiculo v = new Vehiculo(datos, nombreDepartamento); // <-- asigna departamento
                                 abb.insertar(v);
                                 avl.insertar(v);
                             }
                         }
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, "Error al leer: " + archivo.getName());
-                        e.printStackTrace();
                     }
                 }
             }
         }
     }
 }
+
 
 
 
@@ -230,6 +259,7 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JTable TablaVehiculos;
     private javax.swing.JButton VehiculosABB;
     private javax.swing.JButton VehiculosAVL;
+    private javax.swing.JComboBox<String> comboDepartamento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
