@@ -38,6 +38,10 @@ public class principal extends javax.swing.JFrame {
         CargaABByAVL = new javax.swing.JButton();
         VehiculosABB = new javax.swing.JButton();
         comboDepartamento = new javax.swing.JComboBox<>();
+        TiempoABB = new javax.swing.JTextField();
+        TiempoAVL = new javax.swing.JTextField();
+        LabelTiempoAVL = new javax.swing.JLabel();
+        LabelTiempoABB = new javax.swing.JLabel();
         PanelContenido = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaVehiculos = new javax.swing.JTable();
@@ -58,7 +62,7 @@ public class principal extends javax.swing.JFrame {
                 VehiculosAVLActionPerformed(evt);
             }
         });
-        jPanel1.add(VehiculosAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, -1, -1));
+        jPanel1.add(VehiculosAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, -1, -1));
 
         CargaABByAVL.setText("Cargar Archivos");
         CargaABByAVL.addActionListener(new java.awt.event.ActionListener() {
@@ -66,18 +70,36 @@ public class principal extends javax.swing.JFrame {
                 CargaABByAVLActionPerformed(evt);
             }
         });
-        jPanel1.add(CargaABByAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+        jPanel1.add(CargaABByAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 50));
 
-        VehiculosABB.setText("Vehiculos en ABB");
+        VehiculosABB.setText("Vehiculos");
         VehiculosABB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VehiculosABBActionPerformed(evt);
             }
         });
-        jPanel1.add(VehiculosABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
+        jPanel1.add(VehiculosABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
         comboDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(comboDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 100, -1, -1));
+        jPanel1.add(TiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 370, 100, -1));
+
+        TiempoAVL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TiempoAVLActionPerformed(evt);
+            }
+        });
+        jPanel1.add(TiempoAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 370, 110, -1));
+
+        LabelTiempoAVL.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LabelTiempoAVL.setForeground(new java.awt.Color(255, 255, 255));
+        LabelTiempoAVL.setText("Tiempo de ejecucion en AVL:");
+        jPanel1.add(LabelTiempoAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 370, -1, -1));
+
+        LabelTiempoABB.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LabelTiempoABB.setForeground(new java.awt.Color(255, 255, 255));
+        LabelTiempoABB.setText("Tiempo de ejecucion en ABB:");
+        jPanel1.add(LabelTiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, -1, -1));
 
         PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
@@ -176,6 +198,10 @@ public class principal extends javax.swing.JFrame {
         }
     }
     }//GEN-LAST:event_VehiculosAVLActionPerformed
+
+    private void TiempoAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TiempoAVLActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TiempoAVLActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
@@ -183,9 +209,13 @@ public class principal extends javax.swing.JFrame {
 
     if (carpetas != null) {
         comboDepartamento.removeAllItems(); // Limpia combo previo
+
+        // ⏱️ MEDIR TIEMPO EN ABB
+        long inicioABB = System.nanoTime();
+
         for (File carpeta : carpetas) {
             String nombreDepartamento = carpeta.getName();
-            comboDepartamento.addItem(nombreDepartamento); // Agrega al combo
+            comboDepartamento.addItem(nombreDepartamento);
 
             File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith("_vehiculos.txt"));
             if (archivos != null) {
@@ -197,9 +227,8 @@ public class principal extends javax.swing.JFrame {
 
                             String[] datos = linea.split(",");
                             if (datos.length >= 6) {
-                                Vehiculo v = new Vehiculo(datos, nombreDepartamento); // <-- asigna departamento
-                                abb.insertar(v);
-                                avl.insertar(v);
+                                Vehiculo v = new Vehiculo(datos, nombreDepartamento);
+                                abb.insertar(v); // Solo ABB en este bloque
                             }
                         }
                     } catch (IOException e) {
@@ -208,8 +237,42 @@ public class principal extends javax.swing.JFrame {
                 }
             }
         }
+
+        long finABB = System.nanoTime();
+        TiempoABB.setText((finABB - inicioABB) / 1_000_000 + " ms");
+
+        // ⏱️ MEDIR TIEMPO EN AVL
+        long inicioAVL = System.nanoTime();
+
+        for (File carpeta : carpetas) {
+            String nombreDepartamento = carpeta.getName();
+
+            File[] archivos = carpeta.listFiles((dir, name) -> name.endsWith("_vehiculos.txt"));
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                        String linea;
+                        while ((linea = br.readLine()) != null) {
+                            if (linea.toLowerCase().contains("placa") && linea.toLowerCase().contains("modelo")) continue;
+
+                            String[] datos = linea.split(",");
+                            if (datos.length >= 6) {
+                                Vehiculo v = new Vehiculo(datos, carpeta.getName());
+                                avl.insertar(v); // Solo AVL en este bloque
+                            }
+                        }
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, "Error al leer: " + archivo.getName());
+                    }
+                }
+            }
+        }
+
+        long finAVL = System.nanoTime();
+        TiempoAVL.setText((finAVL - inicioAVL) / 1_000_000 + " ms");
     }
 }
+
 
 
 
@@ -255,8 +318,12 @@ public class principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CargaABByAVL;
     private javax.swing.JLabel Fondo;
+    private javax.swing.JLabel LabelTiempoABB;
+    private javax.swing.JLabel LabelTiempoAVL;
     private javax.swing.JPanel PanelContenido;
     private javax.swing.JTable TablaVehiculos;
+    private javax.swing.JTextField TiempoABB;
+    private javax.swing.JTextField TiempoAVL;
     private javax.swing.JButton VehiculosABB;
     private javax.swing.JButton VehiculosAVL;
     private javax.swing.JComboBox<String> comboDepartamento;
