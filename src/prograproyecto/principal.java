@@ -18,6 +18,8 @@ public class principal extends javax.swing.JFrame {
     ArbolABB abb = new ArbolABB();
     ArbolAVL avl = new ArbolAVL();
     DefaultTableModel modelo;
+    public File carpetaSeleccionada;
+
 
     
     public principal() {
@@ -42,8 +44,11 @@ public class principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         CargaABByAVL = new javax.swing.JButton();
         LabelBuscar = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        VehiculoIng = new javax.swing.JTextField();
+        BuscarVehiculo = new javax.swing.JButton();
         comboDepartamento = new javax.swing.JComboBox<>();
+        PanelRegistros = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         TiempoABB = new javax.swing.JTextField();
         TiempoAVL = new javax.swing.JTextField();
         LabelTiempoAVL = new javax.swing.JLabel();
@@ -135,10 +140,30 @@ public class principal extends javax.swing.JFrame {
         LabelBuscar.setForeground(new java.awt.Color(204, 255, 255));
         LabelBuscar.setText("Buscar: ");
         jPanel1.add(LabelBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 80, -1, -1));
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 80, 180, -1));
+        jPanel1.add(VehiculoIng, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 80, 180, -1));
+
+        BuscarVehiculo.setText("Buscar");
+        jPanel1.add(BuscarVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 80, -1, -1));
 
         comboDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(comboDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, -1, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cris.jpg"))); // NOI18N
+
+        javax.swing.GroupLayout PanelRegistrosLayout = new javax.swing.GroupLayout(PanelRegistros);
+        PanelRegistros.setLayout(PanelRegistrosLayout);
+        PanelRegistrosLayout.setHorizontalGroup(
+            PanelRegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 948, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        PanelRegistrosLayout.setVerticalGroup(
+            PanelRegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelRegistrosLayout.createSequentialGroup()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(PanelRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 720, 250));
         jPanel1.add(TiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 650, 80, -1));
 
         TiempoAVL.addActionListener(new java.awt.event.ActionListener() {
@@ -233,7 +258,7 @@ public class principal extends javax.swing.JFrame {
     int seleccion = fileChooser.showOpenDialog(this);
 
     if (seleccion == JFileChooser.APPROVE_OPTION) {
-        File carpetaSeleccionada = fileChooser.getSelectedFile();
+        carpetaSeleccionada = fileChooser.getSelectedFile();  // ← ESTA LÍNEA ES VITAL
         cargarTodosLosArchivos(carpetaSeleccionada);
         JOptionPane.showMessageDialog(this, "Archivos cargados en ABB y AVL.");
     }
@@ -244,7 +269,21 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_TiempoAVLActionPerformed
 
     private void AgregarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarVehiculoActionPerformed
-        // TODO add your handling code here:
+    NuevoVehiculo panel = new NuevoVehiculo(this); // creas el panel
+
+    // 🔁 Cargar lista de departamentos reales
+    List<String> departamentos = new ArrayList<>();
+    for (int i = 0; i < comboDepartamento.getItemCount(); i++) {
+        departamentos.add(comboDepartamento.getItemAt(i));
+    }
+    panel.setDepartamentos(departamentos); // pasar al formulario
+
+    // 🔁 Mostrar el panel en PanelRegistros
+    PanelRegistros.removeAll();
+    PanelRegistros.setLayout(new java.awt.BorderLayout());
+    PanelRegistros.add(panel);
+    PanelRegistros.revalidate();
+    PanelRegistros.repaint();
     }//GEN-LAST:event_AgregarVehiculoActionPerformed
         
    
@@ -316,6 +355,8 @@ public class principal extends javax.swing.JFrame {
         TiempoAVL.setText((finAVL - inicioAVL) / 1_000_000 + " ms");
     }
 }
+    
+    
 
 
 
@@ -361,6 +402,7 @@ public class principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AgregarVehiculo;
+    private javax.swing.JButton BuscarVehiculo;
     private javax.swing.JButton CargaABByAVL;
     private javax.swing.JButton EliminarVehiculo;
     private javax.swing.JLabel Fondo;
@@ -369,16 +411,18 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JLabel LabelTiempoAVL;
     private javax.swing.JButton ModificarVehiculo;
     private javax.swing.JPanel PanelContenido;
+    private javax.swing.JPanel PanelRegistros;
     private javax.swing.JTable TablaVehiculos;
     private javax.swing.JTextField TiempoABB;
     private javax.swing.JTextField TiempoAVL;
+    private javax.swing.JTextField VehiculoIng;
     private javax.swing.JButton VehiculosABB;
     private javax.swing.JComboBox<String> comboDepartamento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
