@@ -33,10 +33,16 @@ public class principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        VehiculosAVL = new javax.swing.JButton();
-        CargaABByAVL = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         VehiculosABB = new javax.swing.JButton();
+        AgregarVehiculo = new javax.swing.JButton();
+        EliminarVehiculo = new javax.swing.JButton();
+        ModificarVehiculo = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        CargaABByAVL = new javax.swing.JButton();
+        LabelBuscar = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         comboDepartamento = new javax.swing.JComboBox<>();
         TiempoABB = new javax.swing.JTextField();
         TiempoAVL = new javax.swing.JTextField();
@@ -51,18 +57,71 @@ public class principal extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        VehiculosABB.setText("Vehiculos");
+        VehiculosABB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VehiculosABBActionPerformed(evt);
+            }
+        });
+
+        AgregarVehiculo.setText("Nuevo Vehiculo");
+        AgregarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarVehiculoActionPerformed(evt);
+            }
+        });
+
+        EliminarVehiculo.setText("Eliminar vehiculo");
+
+        ModificarVehiculo.setText("Modificar vehiculo");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Vehiculos");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ModificarVehiculo))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(EliminarVehiculo))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(AgregarVehiculo))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(VehiculosABB)
+                            .addComponent(jLabel2))))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(VehiculosABB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(AgregarVehiculo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(EliminarVehiculo)
+                .addGap(18, 18, 18)
+                .addComponent(ModificarVehiculo)
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 150, 220));
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("PROGRAMA SIRVE");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, -1, -1));
-
-        VehiculosAVL.setText("Vehiculos en AVL");
-        VehiculosAVL.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VehiculosAVLActionPerformed(evt);
-            }
-        });
-        jPanel1.add(VehiculosAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, -1, -1));
 
         CargaABByAVL.setText("Cargar Archivos");
         CargaABByAVL.addActionListener(new java.awt.event.ActionListener() {
@@ -72,34 +131,32 @@ public class principal extends javax.swing.JFrame {
         });
         jPanel1.add(CargaABByAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 50));
 
-        VehiculosABB.setText("Vehiculos");
-        VehiculosABB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VehiculosABBActionPerformed(evt);
-            }
-        });
-        jPanel1.add(VehiculosABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
+        LabelBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        LabelBuscar.setForeground(new java.awt.Color(204, 255, 255));
+        LabelBuscar.setText("Buscar: ");
+        jPanel1.add(LabelBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 80, -1, -1));
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 80, 180, -1));
 
         comboDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(comboDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 100, -1, -1));
-        jPanel1.add(TiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 370, 100, -1));
+        jPanel1.add(comboDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, -1, -1));
+        jPanel1.add(TiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 650, 80, -1));
 
         TiempoAVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TiempoAVLActionPerformed(evt);
             }
         });
-        jPanel1.add(TiempoAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 370, 110, -1));
+        jPanel1.add(TiempoAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 650, 80, -1));
 
         LabelTiempoAVL.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LabelTiempoAVL.setForeground(new java.awt.Color(255, 255, 255));
         LabelTiempoAVL.setText("Tiempo de ejecucion en AVL:");
-        jPanel1.add(LabelTiempoAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 370, -1, -1));
+        jPanel1.add(LabelTiempoAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 650, -1, -1));
 
         LabelTiempoABB.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LabelTiempoABB.setForeground(new java.awt.Color(255, 255, 255));
         LabelTiempoABB.setText("Tiempo de ejecucion en ABB:");
-        jPanel1.add(LabelTiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, -1, -1));
+        jPanel1.add(LabelTiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, -1, -1));
 
         PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
@@ -133,7 +190,7 @@ public class principal extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jPanel1.add(PanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, 720, 220));
+        jPanel1.add(PanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 720, 220));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/carro.jpg"))); // NOI18N
         jPanel1.add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 680));
@@ -182,26 +239,13 @@ public class principal extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_CargaABByAVLActionPerformed
 
-    private void VehiculosAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosAVLActionPerformed
-        String seleccionado = (String) comboDepartamento.getSelectedItem();
-    List<Vehiculo> lista = new ArrayList<>();
-    avl.inorden(lista);
-
-    modelo.setRowCount(0);
-    for (Vehiculo v : lista) {
-        if (v.getDepartamento().equalsIgnoreCase(seleccionado)) {
-            modelo.addRow(new Object[]{
-                v.getPlaca(), v.getDpi(), v.getNombre(),
-                v.getMarca(), v.getModelo(), v.getAño(),
-                v.getMultas(), v.getTraspasos()
-            });
-        }
-    }
-    }//GEN-LAST:event_VehiculosAVLActionPerformed
-
     private void TiempoAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TiempoAVLActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TiempoAVLActionPerformed
+
+    private void AgregarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarVehiculoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AgregarVehiculoActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
@@ -316,19 +360,25 @@ public class principal extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AgregarVehiculo;
     private javax.swing.JButton CargaABByAVL;
+    private javax.swing.JButton EliminarVehiculo;
     private javax.swing.JLabel Fondo;
+    private javax.swing.JLabel LabelBuscar;
     private javax.swing.JLabel LabelTiempoABB;
     private javax.swing.JLabel LabelTiempoAVL;
+    private javax.swing.JButton ModificarVehiculo;
     private javax.swing.JPanel PanelContenido;
     private javax.swing.JTable TablaVehiculos;
     private javax.swing.JTextField TiempoABB;
     private javax.swing.JTextField TiempoAVL;
     private javax.swing.JButton VehiculosABB;
-    private javax.swing.JButton VehiculosAVL;
     private javax.swing.JComboBox<String> comboDepartamento;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
