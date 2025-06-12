@@ -60,7 +60,7 @@ public class principal extends javax.swing.JFrame {
                 CargaABByAVLActionPerformed(evt);
             }
         });
-        jPanel1.add(CargaABByAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
+        jPanel1.add(CargaABByAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
 
         VehiculosABB.setText("Vehiculos en ABB");
         VehiculosABB.addActionListener(new java.awt.event.ActionListener() {
