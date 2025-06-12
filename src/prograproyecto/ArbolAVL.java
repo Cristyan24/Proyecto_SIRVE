@@ -94,4 +94,21 @@ public class ArbolAVL {
             inordenRec(nodo.derecha, lista);
         }
     }
+    
+    public Vehiculo buscar(String placa) {
+    return buscarRecursivo(raiz, placa);
+}
+
+private Vehiculo buscarRecursivo(NodoAVL nodo, String placa) {
+    if (nodo == null) return null;
+
+    if (placa.equalsIgnoreCase(nodo.vehiculo.getPlaca())) return nodo.vehiculo;
+
+    if (placa.compareToIgnoreCase(nodo.vehiculo.getPlaca()) < 0)
+        return buscarRecursivo(nodo.izquierda, placa);
+    else
+        return buscarRecursivo(nodo.derecha, placa);
+}
+
+    
 }

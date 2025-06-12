@@ -143,6 +143,11 @@ public class principal extends javax.swing.JFrame {
         jPanel1.add(VehiculoIng, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 80, 180, -1));
 
         BuscarVehiculo.setText("Buscar");
+        BuscarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarVehiculoActionPerformed(evt);
+            }
+        });
         jPanel1.add(BuscarVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 80, -1, -1));
 
         comboDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -285,6 +290,10 @@ public class principal extends javax.swing.JFrame {
     PanelRegistros.revalidate();
     PanelRegistros.repaint();
     }//GEN-LAST:event_AgregarVehiculoActionPerformed
+
+    private void BuscarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarVehiculoActionPerformed
+        buscarVehiculoPorPlacaEnAVL();
+    }//GEN-LAST:event_BuscarVehiculoActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
@@ -356,7 +365,41 @@ public class principal extends javax.swing.JFrame {
     }
 }
     
-    
+    private void buscarVehiculoPorPlacaEnAVL() {
+    String placaBuscar = VehiculoIng.getText().trim();
+    if (placaBuscar.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese una placa para buscar.");
+        return;
+    }
+
+    String seleccionado = (String) comboDepartamento.getSelectedItem(); // <- Departamento activo
+
+    long inicio = System.nanoTime();
+    Vehiculo encontrado = avl.buscar(placaBuscar);
+    long fin = System.nanoTime();
+
+    modelo.setRowCount(0); // Limpiar tabla antes de mostrar
+
+    if (encontrado != null) {
+        if (encontrado.getDepartamento().equalsIgnoreCase(seleccionado)) {
+            modelo.addRow(new Object[]{
+                encontrado.getPlaca(), encontrado.getDpi(), encontrado.getNombre(),
+                encontrado.getMarca(), encontrado.getModelo(), encontrado.getAño(),
+                encontrado.getMultas(), encontrado.getTraspasos()
+            });
+
+            JOptionPane.showMessageDialog(this, "Vehículo encontrado en AVL.\nTiempo: " + ((fin - inicio) / 1_000_000.0) + " ms");
+        } else {
+            JOptionPane.showMessageDialog(this, "Vehículo encontrado, pero pertenece al departamento: " + encontrado.getDepartamento());
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Vehículo no encontrado.");
+    }
+    VehiculoIng.setText(""); // Limpia el campo después de la búsqueda
+
+}
+
+
 
 
 
