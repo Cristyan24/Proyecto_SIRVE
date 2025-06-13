@@ -26,8 +26,16 @@ public class principal extends javax.swing.JFrame {
         initComponents();
         modelo = (DefaultTableModel) TablaVehiculos.getModel();
 
-        
     }
+    
+    public File getCarpetaSeleccionada() {
+        return carpetaSeleccionada;
+    }
+
+    public String getDepartamentoSeleccionado() {
+    return comboDepartamento.getSelectedItem().toString();
+}
+
 
 
     @SuppressWarnings("unchecked")
@@ -79,6 +87,11 @@ public class principal extends javax.swing.JFrame {
         EliminarVehiculo.setText("Eliminar vehiculo");
 
         ModificarVehiculo.setText("Modificar vehiculo");
+        ModificarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarVehiculoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Vehiculos");
@@ -240,7 +253,7 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void VehiculosABBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosABBActionPerformed
-        String seleccionado = (String) comboDepartamento.getSelectedItem();
+    String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
     abb.inorden(lista);
 
@@ -259,11 +272,11 @@ public class principal extends javax.swing.JFrame {
 
     private void CargaABByAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaABByAVLActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    int seleccion = fileChooser.showOpenDialog(this);
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int seleccion = fileChooser.showOpenDialog(this);
 
-    if (seleccion == JFileChooser.APPROVE_OPTION) {
-        carpetaSeleccionada = fileChooser.getSelectedFile();  // ← ESTA LÍNEA ES VITAL
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+        carpetaSeleccionada = fileChooser.getSelectedFile(); // <== IMPORTANTE
         cargarTodosLosArchivos(carpetaSeleccionada);
         JOptionPane.showMessageDialog(this, "Archivos cargados en ABB y AVL.");
     }
@@ -276,14 +289,14 @@ public class principal extends javax.swing.JFrame {
     private void AgregarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarVehiculoActionPerformed
     NuevoVehiculo panel = new NuevoVehiculo(this); // creas el panel
 
-    // 🔁 Cargar lista de departamentos reales
+    // Cargar lista de departamentos reales
     List<String> departamentos = new ArrayList<>();
     for (int i = 0; i < comboDepartamento.getItemCount(); i++) {
         departamentos.add(comboDepartamento.getItemAt(i));
     }
     panel.setDepartamentos(departamentos); // pasar al formulario
 
-    // 🔁 Mostrar el panel en PanelRegistros
+    //  Mostrar el panel en PanelRegistros
     PanelRegistros.removeAll();
     PanelRegistros.setLayout(new java.awt.BorderLayout());
     PanelRegistros.add(panel);
@@ -294,6 +307,36 @@ public class principal extends javax.swing.JFrame {
     private void BuscarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarVehiculoActionPerformed
         buscarVehiculoPorPlacaEnAVL();
     }//GEN-LAST:event_BuscarVehiculoActionPerformed
+
+    private void ModificarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarVehiculoActionPerformed
+            String placa = JOptionPane.showInputDialog(this, "Ingrese la placa del vehículo a modificar:");
+
+    if (placa != null && !placa.trim().isEmpty()) {
+        Vehiculo encontrado = avl.buscar(placa.trim());
+
+        if (encontrado != null) {
+            // Crear el panel con los datos del vehículo
+            ModificarVehiculo panel = new ModificarVehiculo(
+                this,
+                encontrado.getPlaca(),
+                encontrado.getModelo(),
+                encontrado.getMarca(),
+                String.valueOf(encontrado.getAño())
+            );
+
+            // Asegurar que sea visible y se coloque en el contenedor
+            panel.setVisible(true);
+            PanelRegistros.removeAll();
+            PanelRegistros.setLayout(new java.awt.BorderLayout()); // asegúrate del layout
+            PanelRegistros.add(panel, java.awt.BorderLayout.CENTER);
+            PanelRegistros.revalidate();
+            PanelRegistros.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Vehículo no encontrado.");
+        }
+    }
+
+    }//GEN-LAST:event_ModificarVehiculoActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
@@ -398,7 +441,28 @@ public class principal extends javax.swing.JFrame {
     VehiculoIng.setText(""); // Limpia el campo después de la búsqueda
 
 }
+    
+    public void recargarTabla() {
+    String seleccionado = (String) comboDepartamento.getSelectedItem(); // Departamento activo
+    List<Vehiculo> lista = new ArrayList<>();
+    avl.inorden(lista); // O abb.inorden(lista), según estés usando
 
+    modelo.setRowCount(0); // Limpiar tabla
+
+    for (Vehiculo v : lista) {
+        if (v.getDepartamento().equalsIgnoreCase(seleccionado)) {
+            modelo.addRow(new Object[]{
+                v.getPlaca(), v.getDpi(), v.getNombre(),
+                v.getMarca(), v.getModelo(), v.getAño(),
+                v.getMultas(), v.getTraspasos()
+            });
+        }
+    }
+}
+
+
+
+    
 
 
 

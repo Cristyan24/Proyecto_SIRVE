@@ -26,5 +26,10 @@ public class Vehiculo {
     public int getMultas() { return multas; }
     public int getTraspasos() { return traspasos; }
     public String getDepartamento() { return departamento; }
+    
+    public void setModelo(String modelo) { this.modelo = modelo; }
+    public void setMarca(String marca) { this.marca = marca; }
+    public void setAño(int año) { this.año = año; }
+
 }
 

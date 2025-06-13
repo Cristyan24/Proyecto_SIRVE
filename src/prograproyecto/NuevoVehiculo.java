@@ -213,8 +213,6 @@ public class NuevoVehiculo extends javax.swing.JPanel {
 }
 
     
-    
-    
     private void GuardarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarDatosActionPerformed
         String placa = NuevaPlaca.getText().trim();
     String dpi = NuevoDPI.getText().trim();
@@ -249,6 +247,7 @@ public class NuevoVehiculo extends javax.swing.JPanel {
     }
 
     this.setVisible(false); // cerrar panel
+    
     
     }//GEN-LAST:event_GuardarDatosActionPerformed
 
