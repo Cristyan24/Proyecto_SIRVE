@@ -443,9 +443,9 @@ public class principal extends javax.swing.JFrame {
 }
     
     public void recargarTabla() {
-    String seleccionado = (String) comboDepartamento.getSelectedItem(); // Departamento activo
+    String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
-    avl.inorden(lista); // O abb.inorden(lista), según estés usando
+    avl.inorden(lista); // O abb.inorden(lista), según uses
 
     modelo.setRowCount(0); // Limpiar tabla
 
@@ -459,6 +459,7 @@ public class principal extends javax.swing.JFrame {
         }
     }
 }
+
 
 
 

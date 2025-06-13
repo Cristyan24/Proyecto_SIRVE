@@ -177,6 +177,13 @@ public class ModificarVehiculo extends javax.swing.JPanel {
         }
 
         JOptionPane.showMessageDialog(this, "Vehículo modificado correctamente.");
+        Vehiculo nodo = mainApp.avl.buscar(placaOriginal);
+        if (nodo != null) {
+        nodo.setMarca(nuevaMarca);
+        nodo.setModelo(nuevoModelo);
+        nodo.setAño(nuevoAnio);
+}
+
         mainApp.recargarTabla();
         setVisible(false);
 
