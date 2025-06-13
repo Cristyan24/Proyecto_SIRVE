@@ -26,6 +26,8 @@ public class principal extends javax.swing.JFrame {
     public principal() {
         initComponents();
         modelo = (DefaultTableModel) TablaVehiculos.getModel();
+        PanelContenido.setVisible(false);  // Oculta la tabla de vehículos al iniciar
+
 
     }
     
@@ -57,7 +59,6 @@ public class principal extends javax.swing.JFrame {
         BuscarVehiculo = new javax.swing.JButton();
         comboDepartamento = new javax.swing.JComboBox<>();
         PanelRegistros = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         TiempoABB = new javax.swing.JTextField();
         TiempoAVL = new javax.swing.JTextField();
         LabelTiempoAVL = new javax.swing.JLabel();
@@ -172,19 +173,17 @@ public class principal extends javax.swing.JFrame {
         comboDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(comboDepartamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/cris.jpg"))); // NOI18N
+        PanelRegistros.setBackground(new java.awt.Color(51, 51, 255));
 
         javax.swing.GroupLayout PanelRegistrosLayout = new javax.swing.GroupLayout(PanelRegistros);
         PanelRegistros.setLayout(PanelRegistrosLayout);
         PanelRegistrosLayout.setHorizontalGroup(
             PanelRegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 948, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 720, Short.MAX_VALUE)
         );
         PanelRegistrosLayout.setVerticalGroup(
             PanelRegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelRegistrosLayout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 250, Short.MAX_VALUE)
         );
 
         jPanel1.add(PanelRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 720, 250));
@@ -259,7 +258,12 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void VehiculosTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosTablaActionPerformed
-    String seleccionado = (String) comboDepartamento.getSelectedItem();
+    PanelContenido.setVisible(true);       // Mostrar tabla
+    PanelRegistros.removeAll();           // Ocultar cualquier otro panel
+    PanelRegistros.revalidate();
+    PanelRegistros.repaint();
+      
+     String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
     abb.inorden(lista);
 
@@ -591,7 +595,6 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboDepartamento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
