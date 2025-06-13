@@ -39,4 +39,35 @@ public class ArbolABB {
             inordenRec(nodo.derecha, lista);
         }
     }
+    
+    public void eliminar(String placa) {
+    raiz = eliminarRec(raiz, placa);
+}
+
+    
+    private NodoABB eliminarRec(NodoABB nodo, String placa) {
+    if (nodo == null) return null;
+
+    if (placa.compareTo(nodo.vehiculo.getPlaca()) < 0) {
+        nodo.izquierda = eliminarRec(nodo.izquierda, placa);
+    } else if (placa.compareTo(nodo.vehiculo.getPlaca()) > 0) {
+        nodo.derecha = eliminarRec(nodo.derecha, placa);
+    } else {
+        if (nodo.izquierda == null) return nodo.derecha;
+        if (nodo.derecha == null) return nodo.izquierda;
+
+        NodoABB sucesor = encontrarMin(nodo.derecha);
+        nodo.vehiculo = sucesor.vehiculo;
+        nodo.derecha = eliminarRec(nodo.derecha, sucesor.vehiculo.getPlaca());
+    }
+
+    return nodo;
+}
+
+private NodoABB encontrarMin(NodoABB nodo) {
+    while (nodo.izquierda != null) nodo = nodo.izquierda;
+    return nodo;
+}
+
+    
 }

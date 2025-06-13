@@ -110,5 +110,39 @@ private Vehiculo buscarRecursivo(NodoAVL nodo, String placa) {
         return buscarRecursivo(nodo.derecha, placa);
 }
 
+    public void eliminar(String placa) {
+    raiz = eliminarRec(raiz, placa);
+}
+
+private NodoAVL eliminarRec(NodoAVL nodo, String placa) {
+    if (nodo == null) return null;
+
+    if (placa.compareToIgnoreCase(nodo.vehiculo.getPlaca()) < 0) {
+        nodo.izquierda = eliminarRec(nodo.izquierda, placa);
+    } else if (placa.compareToIgnoreCase(nodo.vehiculo.getPlaca()) > 0) {
+        nodo.derecha = eliminarRec(nodo.derecha, placa);
+    } else {
+        // Nodo con solo un hijo o sin hijos
+        if (nodo.izquierda == null) return nodo.derecha;
+        else if (nodo.derecha == null) return nodo.izquierda;
+
+        // Nodo con dos hijos: obtener el sucesor
+        NodoAVL sucesor = encontrarMinimo(nodo.derecha);
+        nodo.vehiculo = sucesor.vehiculo;
+        nodo.derecha = eliminarRec(nodo.derecha, sucesor.vehiculo.getPlaca());
+    }
+
+    // Aquí puedes aplicar balanceo si es AVL
+    return nodo;
+}
+
+private NodoAVL encontrarMinimo(NodoAVL nodo) {
+    while (nodo.izquierda != null) {
+        nodo = nodo.izquierda;
+    }
+    return nodo;
+}
+
+
     
 }

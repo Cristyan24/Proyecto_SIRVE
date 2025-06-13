@@ -4,6 +4,7 @@ package prograproyecto;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +86,11 @@ public class principal extends javax.swing.JFrame {
         });
 
         EliminarVehiculo.setText("Eliminar vehiculo");
+        EliminarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarVehiculoActionPerformed(evt);
+            }
+        });
 
         ModificarVehiculo.setText("Modificar vehiculo");
         ModificarVehiculo.addActionListener(new java.awt.event.ActionListener() {
@@ -337,6 +343,61 @@ public class principal extends javax.swing.JFrame {
     }
 
     }//GEN-LAST:event_ModificarVehiculoActionPerformed
+
+    private void EliminarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarVehiculoActionPerformed
+        String placa = JOptionPane.showInputDialog(this, "Ingrese la placa del vehículo a eliminar:");
+
+    if (placa == null || placa.trim().isEmpty()) {
+        return; // Cancelado o vacío: no hace nada
+    }
+
+    // Confirmar solo una vez
+    int confirm = JOptionPane.showConfirmDialog(this,
+            "¿Está seguro de que desea eliminar el vehículo con placa: " + placa + "?",
+            "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+    if (confirm != JOptionPane.YES_OPTION) {
+        return; // Si elige NO, no hace nada más
+    }
+
+    placa = placa.trim();
+    Vehiculo v = avl.buscar(placa);
+    if (v == null) {
+        JOptionPane.showMessageDialog(this, "Vehículo no encontrado.");
+        return;
+    }
+
+    // Eliminar del archivo
+    File archivo = new File(carpetaSeleccionada, v.getDepartamento() + "/" + v.getDepartamento() + "_vehiculos.txt");
+
+    try {
+        List<String> lineas = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.toLowerCase().startsWith(placa.toLowerCase() + ",")) {
+                    lineas.add(linea);
+                }
+            }
+        }
+
+        try (FileWriter fw = new FileWriter(archivo, false)) {
+            for (String l : lineas) {
+                fw.write(l + "\n");
+            }
+        }
+
+        // Eliminar de los árboles
+        abb.eliminar(placa);
+        avl.eliminar(placa);
+
+        JOptionPane.showMessageDialog(this, "Vehículo eliminado correctamente.");
+        recargarTabla();
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar el vehículo del archivo.");
+    }
+    }//GEN-LAST:event_EliminarVehiculoActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
@@ -431,7 +492,7 @@ public class principal extends javax.swing.JFrame {
                 encontrado.getMultas(), encontrado.getTraspasos()
             });
 
-            JOptionPane.showMessageDialog(this, "Vehículo encontrado en AVL.\nTiempo: " + ((fin - inicio) / 1_000_000.0) + " ms");
+            JOptionPane.showMessageDialog(this, "Vehículo encontrado");
         } else {
             JOptionPane.showMessageDialog(this, "Vehículo encontrado, pero pertenece al departamento: " + encontrado.getDepartamento());
         }
@@ -459,6 +520,8 @@ public class principal extends javax.swing.JFrame {
         }
     }
 }
+
+
 
 
 
