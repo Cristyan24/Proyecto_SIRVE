@@ -45,7 +45,7 @@ public class principal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        VehiculosABB = new javax.swing.JButton();
+        VehiculosTabla = new javax.swing.JButton();
         AgregarVehiculo = new javax.swing.JButton();
         EliminarVehiculo = new javax.swing.JButton();
         ModificarVehiculo = new javax.swing.JButton();
@@ -71,10 +71,10 @@ public class principal extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        VehiculosABB.setText("Vehiculos");
-        VehiculosABB.addActionListener(new java.awt.event.ActionListener() {
+        VehiculosTabla.setText("Vehiculos");
+        VehiculosTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VehiculosABBActionPerformed(evt);
+                VehiculosTablaActionPerformed(evt);
             }
         });
 
@@ -120,7 +120,7 @@ public class principal extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(VehiculosABB)
+                            .addComponent(VehiculosTabla)
                             .addComponent(jLabel2))))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -130,7 +130,7 @@ public class principal extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(VehiculosABB)
+                .addComponent(VehiculosTabla)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(AgregarVehiculo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -258,7 +258,7 @@ public class principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void VehiculosABBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosABBActionPerformed
+    private void VehiculosTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculosTablaActionPerformed
     String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
     abb.inorden(lista);
@@ -274,7 +274,7 @@ public class principal extends javax.swing.JFrame {
         }
     }
 
-    }//GEN-LAST:event_VehiculosABBActionPerformed
+    }//GEN-LAST:event_VehiculosTablaActionPerformed
 
     private void CargaABByAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaABByAVLActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -587,7 +587,7 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JTextField TiempoABB;
     private javax.swing.JTextField TiempoAVL;
     private javax.swing.JTextField VehiculoIng;
-    private javax.swing.JButton VehiculosABB;
+    private javax.swing.JButton VehiculosTabla;
     private javax.swing.JComboBox<String> comboDepartamento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
