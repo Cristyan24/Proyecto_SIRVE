@@ -202,6 +202,11 @@ public class principal extends javax.swing.JFrame {
         });
 
         AgregarMulta.setText("Nueva Multa");
+        AgregarMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarMultaActionPerformed(evt);
+            }
+        });
 
         EliminarMulta.setText("Pagar Multa");
 
@@ -824,6 +829,16 @@ public class principal extends javax.swing.JFrame {
     private void MostrarABBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarABBActionPerformed
         abb.MostrarArbolABB();
     }//GEN-LAST:event_MostrarABBActionPerformed
+
+    private void AgregarMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarMultaActionPerformed
+    NuevaMulta panel = new NuevaMulta(this); // le pasas la instancia principal
+    panel.setVisible(true);
+
+    PanelRegistros.removeAll();
+    PanelRegistros.add(panel);
+    PanelRegistros.revalidate();
+    PanelRegistros.repaint();
+    }//GEN-LAST:event_AgregarMultaActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
