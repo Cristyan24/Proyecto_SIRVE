@@ -4,7 +4,13 @@
  */
 package prograproyecto;
 
+import java.awt.Desktop;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -143,30 +149,60 @@ private NodoAVL encontrarMinimo(NodoAVL nodo) {
     return nodo;
 }
 
-    public String generarDotAVL() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("digraph AVL {\n");
-    sb.append("node [shape=circle];\n");
-    generarDotRec(raiz, sb);
-    sb.append("}\n");
-    return sb.toString();
-}
-
-private void generarDotRec(NodoAVL nodo, StringBuilder sb) {
+        public void generarDotAVL(NodoAVL nodo, BufferedWriter writer) throws IOException {
     if (nodo != null) {
-        sb.append("\"").append(nodo.vehiculo.getPlaca()).append("\";").append("\n");
+        String etiqueta = nodo.vehiculo.getPlaca();
+        writer.write("\"" + etiqueta + "\" [label=\"" + etiqueta + "\"];\n");
+
         if (nodo.izquierda != null) {
-            sb.append("\"").append(nodo.vehiculo.getPlaca()).append("\" -> ")
-              .append("\"").append(nodo.izquierda.vehiculo.getPlaca()).append("\";").append("\n");
+            writer.write("\"" + etiqueta + "\" -> \"" + nodo.izquierda.vehiculo.getPlaca() + "\";\n");
+            generarDotAVL(nodo.izquierda, writer);
         }
         if (nodo.derecha != null) {
-            sb.append("\"").append(nodo.vehiculo.getPlaca()).append("\" -> ")
-              .append("\"").append(nodo.derecha.vehiculo.getPlaca()).append("\";").append("\n");
+            writer.write("\"" + etiqueta + "\" -> \"" + nodo.derecha.vehiculo.getPlaca() + "\";\n");
+            generarDotAVL(nodo.derecha, writer);
         }
-        generarDotRec(nodo.izquierda, sb);
-        generarDotRec(nodo.derecha, sb);
     }
 }
+        
+        public void exportarAVLComoImagen() {
+    try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("arbolAVL.dot"));
+        writer.write("digraph G {\n");
+        writer.write("node [shape=ellipse, style=filled, color=lightgreen];\n");
+
+        if (raiz != null) {
+            generarDotAVL(raiz, writer);
+        }
+
+        writer.write("}\n");
+        writer.close();
+
+        // Llamar a Graphviz
+        Process p = Runtime.getRuntime().exec("\"C:\\Program Files\\Graphviz\\bin\\dot.exe\" -Tpng arbolAVL.dot -o arbolAVL.png");
+
+        p.waitFor();
+
+        // Abrir la imagen
+        Desktop.getDesktop().open(new File("arbolAVL.png"));
+    } catch (IOException | InterruptedException e) {
+        JOptionPane.showMessageDialog(null, "Error al generar el gráfico AVL: " + e.getMessage());
+    }
+}
+
+
+
+    
+
+    private String getEtiquetaNodo(NodoAVL nodo) {
+    return "\"" + nodo.vehiculo.getPlaca() + "\" [label=\"" +
+           nodo.vehiculo.getPlaca() + "\\n" +
+           nodo.vehiculo.getModelo() + "\\n" +
+           nodo.vehiculo.getAño() + "\"];";
+}
+
+
+
 
 
     

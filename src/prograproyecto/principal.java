@@ -93,6 +93,7 @@ public class principal extends javax.swing.JFrame {
         TiempoAVL = new javax.swing.JTextField();
         LabelTiempoAVL = new javax.swing.JLabel();
         LabelTiempoABB = new javax.swing.JLabel();
+        LabelArbol = new javax.swing.JLabel();
         MostrarABB = new javax.swing.JButton();
         MostrarAVL = new javax.swing.JButton();
         PanelContenido = new javax.swing.JPanel();
@@ -375,10 +376,11 @@ public class principal extends javax.swing.JFrame {
         LabelTiempoABB.setForeground(new java.awt.Color(255, 255, 255));
         LabelTiempoABB.setText("Tiempo de ejecucion en ABB:");
         jPanel1.add(LabelTiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, -1, -1));
+        jPanel1.add(LabelArbol, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 480, 250, 130));
 
         MostrarABB.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         MostrarABB.setText("Arbol ABB");
-        jPanel1.add(MostrarABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 470, 110, 40));
+        jPanel1.add(MostrarABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, 110, 40));
 
         MostrarAVL.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         MostrarAVL.setText("Arbol AVL");
@@ -387,7 +389,7 @@ public class principal extends javax.swing.JFrame {
                 MostrarAVLActionPerformed(evt);
             }
         });
-        jPanel1.add(MostrarAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, 110, 40));
+        jPanel1.add(MostrarAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 350, 110, 40));
 
         PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
@@ -824,11 +826,7 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BuscarTraspasoActionPerformed
 
     private void MostrarAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarAVLActionPerformed
-        MostrarAVL.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent evt) {
-        mostrarImagenAVL();
-    }
-});
+       avl.exportarAVLComoImagen();
     }//GEN-LAST:event_MostrarAVLActionPerformed
         
    
@@ -838,7 +836,7 @@ public class principal extends javax.swing.JFrame {
     if (carpetas != null) {
         comboDepartamento.removeAllItems(); // Limpia combo previo
 
-        // ⏱️ MEDIR TIEMPO EN ABB
+        // MEDIR TIEMPO EN ABB
         long inicioABB = System.nanoTime();
 
         for (File carpeta : carpetas) {
@@ -869,7 +867,7 @@ public class principal extends javax.swing.JFrame {
         long finABB = System.nanoTime();
         TiempoABB.setText((finABB - inicioABB) / 1_000_000 + " ms");
 
-        // ⏱️ MEDIR TIEMPO EN AVL
+        // MEDIR TIEMPO EN AVL
         long inicioAVL = System.nanoTime();
 
         for (File carpeta : carpetas) {
@@ -935,8 +933,6 @@ public class principal extends javax.swing.JFrame {
 
 }
        
-
-    
     public void recargarTabla() {
     String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
@@ -955,29 +951,6 @@ public class principal extends javax.swing.JFrame {
     }
 }
 
-        public void mostrarImagenAVL() {
-    try {
-        String dotPath = "arbolAVL.dot";
-        String imgPath = "arbolAVL.png";
-
-        // 1. Escribir archivo DOT
-        FileWriter fw = new FileWriter(dotPath);
-        fw.write(avl.generarDotAVL()); // método que ya tienes en ArbolAVL
-        fw.close();
-
-        // 2. Ejecutar Graphviz (Asegúrate que dot.exe esté en PATH)
-        ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng", dotPath, "-o", imgPath);
-        pb.start().waitFor();
-
-        // 3. Mostrar imagen en un JLabel
-        ImageIcon icon = new ImageIcon(imgPath);
-        JLabel label = new JLabel(icon);
-        JOptionPane.showMessageDialog(this, label, "Árbol AVL", JOptionPane.PLAIN_MESSAGE);
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error generando el gráfico: " + e.getMessage());
-    }
-}
 
 
 
@@ -1040,6 +1013,7 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JButton EliminarTraspaso;
     private javax.swing.JButton EliminarVehiculo;
     private javax.swing.JLabel Fondo;
+    private javax.swing.JLabel LabelArbol;
     private javax.swing.JLabel LabelBuscar;
     private javax.swing.JLabel LabelTiempoABB;
     private javax.swing.JLabel LabelTiempoAVL;
