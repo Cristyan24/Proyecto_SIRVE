@@ -33,7 +33,8 @@ public class principal extends javax.swing.JFrame {
         BuscarMulta.setVisible(false);
         TraspasoIng.setVisible(false);
         BuscarTraspaso.setVisible(false);
-        PanelMultas.setVisible(false); 
+        PanelMultas.setVisible(false);
+        PanelTraspasos.setVisible(false);
 
 
 
@@ -88,14 +89,14 @@ public class principal extends javax.swing.JFrame {
         LabelTiempoAVL = new javax.swing.JLabel();
         LabelTiempoABB = new javax.swing.JLabel();
         PanelContenido = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TablaVehiculos = new javax.swing.JTable();
-        PanelMultas = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TablaMultas = new javax.swing.JTable();
         PanelTraspasos = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TablaTraspasos = new javax.swing.JTable();
+        PanelMultas = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TablaMultas = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaVehiculos = new javax.swing.JTable();
         Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -365,34 +366,6 @@ public class principal extends javax.swing.JFrame {
 
         PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
-        TablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Placa", "DPI", "Nombre", "Marca", "Modelo", "Año", "Multas", "Traspasos"
-            }
-        ));
-        jScrollPane1.setViewportView(TablaVehiculos);
-
-        PanelMultas.setBackground(new java.awt.Color(51, 255, 51));
-
-        TablaMultas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Placa", "Fecha", "Descripcion", "Monto"
-            }
-        ));
-        jScrollPane2.setViewportView(TablaMultas);
-
         PanelTraspasos.setBackground(new java.awt.Color(51, 255, 51));
 
         TablaTraspasos.setModel(new javax.swing.table.DefaultTableModel(
@@ -414,7 +387,7 @@ public class principal extends javax.swing.JFrame {
             PanelTraspasosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTraspasosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelTraspasosLayout.setVerticalGroup(
@@ -425,6 +398,21 @@ public class principal extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
+        PanelMultas.setBackground(new java.awt.Color(51, 255, 51));
+
+        TablaMultas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Placa", "Fecha", "Descripcion", "Monto"
+            }
+        ));
+        jScrollPane2.setViewportView(TablaMultas);
+
         javax.swing.GroupLayout PanelMultasLayout = new javax.swing.GroupLayout(PanelMultas);
         PanelMultas.setLayout(PanelMultasLayout);
         PanelMultasLayout.setHorizontalGroup(
@@ -433,8 +421,6 @@ public class principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(PanelMultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(PanelTraspasos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelMultasLayout.setVerticalGroup(
             PanelMultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,11 +428,20 @@ public class principal extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                 .addGap(36, 36, 36))
-            .addGroup(PanelMultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(PanelMultasLayout.createSequentialGroup()
-                    .addComponent(PanelTraspasos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 15, Short.MAX_VALUE)))
         );
+
+        TablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Placa", "DPI", "Nombre", "Marca", "Modelo", "Año", "Multas", "Traspasos"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaVehiculos);
 
         javax.swing.GroupLayout PanelContenidoLayout = new javax.swing.GroupLayout(PanelContenido);
         PanelContenido.setLayout(PanelContenidoLayout);
@@ -458,6 +453,11 @@ public class principal extends javax.swing.JFrame {
                 .addContainerGap(58, Short.MAX_VALUE))
             .addGroup(PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(PanelMultas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelContenidoLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(PanelTraspasos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         PanelContenidoLayout.setVerticalGroup(
             PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -469,6 +469,11 @@ public class principal extends javax.swing.JFrame {
                 .addGroup(PanelContenidoLayout.createSequentialGroup()
                     .addComponent(PanelMultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(PanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelContenidoLayout.createSequentialGroup()
+                    .addGap(7, 7, 7)
+                    .addComponent(PanelTraspasos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(8, Short.MAX_VALUE)))
         );
 
         jPanel1.add(PanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 720, 220));
@@ -494,6 +499,7 @@ public class principal extends javax.swing.JFrame {
     PanelContenido.setVisible(true);
     PanelMultas.setVisible(false);
     PanelTraspasos.setVisible(false);
+    jScrollPane1.setVisible(true);  // Mostrar tabla de vehículos
 
     VehiculoIng.setVisible(true);
     BuscarVehiculo.setVisible(true);
@@ -506,7 +512,7 @@ public class principal extends javax.swing.JFrame {
     PanelRegistros.revalidate();
     PanelRegistros.repaint();
 
-    // Lógica de carga
+    // Cargar vehículos
     String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
     abb.inorden(lista);
@@ -650,9 +656,10 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BuscarMultaActionPerformed
 
     private void MultasTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MultasTablaActionPerformed
-    PanelContenido.setVisible(false);
+    PanelContenido.setVisible(true);
     PanelMultas.setVisible(true);
     PanelTraspasos.setVisible(false);
+    jScrollPane1.setVisible(false); // Oculta tabla vehículos
 
     VehiculoIng.setVisible(false);
     BuscarVehiculo.setVisible(false);
@@ -663,9 +670,10 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_MultasTablaActionPerformed
 
     private void TraspasosTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TraspasosTablaActionPerformed
-    PanelContenido.setVisible(false);
+    PanelContenido.setVisible(true);
     PanelMultas.setVisible(false);
     PanelTraspasos.setVisible(true);
+    jScrollPane1.setVisible(false); // Oculta tabla vehículos
 
     VehiculoIng.setVisible(false);
     BuscarVehiculo.setVisible(false);
