@@ -18,6 +18,7 @@ public class principal extends javax.swing.JFrame {
     
     ArbolABB abb = new ArbolABB();
     ArbolAVL avl = new ArbolAVL();
+    public ListaTraspasosCircular listaTraspasos = new ListaTraspasosCircular();
     DefaultTableModel modelo;
     public File carpetaSeleccionada;
 
@@ -199,7 +200,7 @@ public class principal extends javax.swing.JFrame {
 
         AgregarMulta.setText("Nueva Multa");
 
-        EliminarMulta.setText("Eliminar Multa");
+        EliminarMulta.setText("Pagar Multa");
 
         ModificarMulta.setText("Modificar Multa");
 
@@ -326,6 +327,11 @@ public class principal extends javax.swing.JFrame {
         jPanel1.add(TraspasoIng, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 80, 180, -1));
 
         BuscarTraspaso.setText("Buscar");
+        BuscarTraspaso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarTraspasoActionPerformed(evt);
+            }
+        });
         jPanel1.add(BuscarTraspaso, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 80, -1, -1));
 
         comboDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -652,7 +658,7 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_EliminarVehiculoActionPerformed
 
     private void BuscarMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarMultaActionPerformed
-        String placa = MultaIng.getText().trim();
+    String placa = MultaIng.getText().trim();
     String dep = comboDepartamento.getSelectedItem().toString();
 
     if (placa.isEmpty()) {
@@ -759,6 +765,36 @@ public class principal extends javax.swing.JFrame {
     TraspasoIng.setVisible(true);
     BuscarTraspaso.setVisible(true);
     }//GEN-LAST:event_TraspasosTablaActionPerformed
+
+    private void BuscarTraspasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarTraspasoActionPerformed
+    String placaBuscar = TraspasoIng.getText().trim();
+    String departamentoActual = comboDepartamento.getSelectedItem().toString();
+
+    if (placaBuscar.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese una placa para buscar.");
+        return;
+    }
+
+    List<Traspaso> encontrados = listaTraspasos.buscarPorPlaca(placaBuscar);
+    DefaultTableModel modeloTraspasos = (DefaultTableModel) TablaTraspasos.getModel();
+    modeloTraspasos.setRowCount(0);
+
+    boolean encontradoEnDepartamento = false;
+
+    for (Traspaso t : encontrados) {
+        modeloTraspasos.addRow(new Object[]{
+            t.getPlaca(), t.getDpiAnterior(), t.getNombreAnterior(),
+            t.getFecha(), t.getDpiNuevo(), t.getNombreNuevo()
+        });
+        encontradoEnDepartamento = true;
+    }
+
+    if (!encontradoEnDepartamento) {
+        JOptionPane.showMessageDialog(this, "No hay traspasos para esta placa en este departamento.");
+    }
+
+    TraspasoIng.setText("");
+    }//GEN-LAST:event_BuscarTraspasoActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
