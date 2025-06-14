@@ -1,8 +1,6 @@
 
 package prograproyecto;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,9 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -531,7 +527,7 @@ public class principal extends javax.swing.JFrame {
     PanelContenido.setVisible(true);
     PanelMultas.setVisible(false);
     PanelTraspasos.setVisible(false);
-    jScrollPane1.setVisible(true);  // Mostrar tabla de vehículos
+    jScrollPane1.setVisible(true); 
 
     VehiculoIng.setVisible(true);
     BuscarVehiculo.setVisible(true);
@@ -544,7 +540,6 @@ public class principal extends javax.swing.JFrame {
     PanelRegistros.revalidate();
     PanelRegistros.repaint();
 
-    // Cargar vehículos
     String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
     abb.inorden(lista);
@@ -566,7 +561,7 @@ public class principal extends javax.swing.JFrame {
         int seleccion = fileChooser.showOpenDialog(this);
 
         if (seleccion == JFileChooser.APPROVE_OPTION) {
-        carpetaSeleccionada = fileChooser.getSelectedFile(); // <== IMPORTANTE
+        carpetaSeleccionada = fileChooser.getSelectedFile();
         cargarTodosLosArchivos(carpetaSeleccionada);
         JOptionPane.showMessageDialog(this, "Archivos cargados en ABB y AVL.");
     }
@@ -577,16 +572,14 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_TiempoAVLActionPerformed
 
     private void AgregarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarVehiculoActionPerformed
-    NuevoVehiculo panel = new NuevoVehiculo(this); // creas el panel
+    NuevoVehiculo panel = new NuevoVehiculo(this); 
 
-    // Cargar lista de departamentos reales
     List<String> departamentos = new ArrayList<>();
     for (int i = 0; i < comboDepartamento.getItemCount(); i++) {
         departamentos.add(comboDepartamento.getItemAt(i));
     }
-    panel.setDepartamentos(departamentos); // pasar al formulario
+    panel.setDepartamentos(departamentos); 
 
-    //  Mostrar el panel en PanelRegistros
     PanelRegistros.removeAll();
     PanelRegistros.setLayout(new java.awt.BorderLayout());
     PanelRegistros.add(panel);
@@ -605,7 +598,6 @@ public class principal extends javax.swing.JFrame {
         Vehiculo encontrado = avl.buscar(placa.trim());
 
         if (encontrado != null) {
-            // Crear el panel con los datos del vehículo
             ModificarVehiculo panel = new ModificarVehiculo(
                 this,
                 encontrado.getPlaca(),
@@ -614,7 +606,6 @@ public class principal extends javax.swing.JFrame {
                 String.valueOf(encontrado.getAño())
             );
 
-            // Asegurar que sea visible y se coloque en el contenedor
             panel.setVisible(true);
             PanelRegistros.removeAll();
             PanelRegistros.setLayout(new java.awt.BorderLayout()); // asegúrate del layout
@@ -632,16 +623,15 @@ public class principal extends javax.swing.JFrame {
         String placa = JOptionPane.showInputDialog(this, "Ingrese la placa del vehículo a eliminar:");
 
     if (placa == null || placa.trim().isEmpty()) {
-        return; // Cancelado o vacío: no hace nada
+        return; 
     }
 
-    // Confirmar solo una vez
     int confirm = JOptionPane.showConfirmDialog(this,
             "¿Está seguro de que desea eliminar el vehículo con placa: " + placa + "?",
             "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
     if (confirm != JOptionPane.YES_OPTION) {
-        return; // Si elige NO, no hace nada más
+        return; 
     }
 
     placa = placa.trim();
@@ -651,7 +641,6 @@ public class principal extends javax.swing.JFrame {
         return;
     }
 
-    // Eliminar del archivo
     File archivo = new File(carpetaSeleccionada, v.getDepartamento() + "/" + v.getDepartamento() + "_vehiculos.txt");
 
     try {
@@ -671,7 +660,6 @@ public class principal extends javax.swing.JFrame {
             }
         }
 
-        // Eliminar de los árboles
         abb.eliminar(placa);
         avl.eliminar(placa);
 
@@ -700,7 +688,7 @@ public class principal extends javax.swing.JFrame {
         List<Multa> resultados = lista.buscarPorPlaca(placa);
 
         DefaultTableModel modeloMulta = (DefaultTableModel) TablaMultas.getModel();
-        modeloMulta.setRowCount(0); // Limpiar la tabla antes
+        modeloMulta.setRowCount(0);
 
         for (Multa m : resultados) {
             modeloMulta.addRow(new Object[]{
@@ -805,8 +793,7 @@ public class principal extends javax.swing.JFrame {
     modeloTraspasos.setRowCount(0);
 
     boolean encontrado = false;
-
-    // ← Asegúrate que esta listaTraspasos esté declarada correctamente en principal.java
+    
     List<Traspaso> resultados = listaTraspasos.buscarPorPlaca(placaBuscar);
 
     for (Traspaso t : resultados) {
@@ -843,9 +830,8 @@ public class principal extends javax.swing.JFrame {
     File[] carpetas = carpetaRaiz.listFiles(File::isDirectory);
 
     if (carpetas != null) {
-        comboDepartamento.removeAllItems(); // Limpia combo previo
+        comboDepartamento.removeAllItems(); 
 
-        // MEDIR TIEMPO EN ABB
         long inicioABB = System.nanoTime();
 
         for (File carpeta : carpetas) {
@@ -863,7 +849,7 @@ public class principal extends javax.swing.JFrame {
                             String[] datos = linea.split(",");
                             if (datos.length >= 6) {
                                 Vehiculo v = new Vehiculo(datos, nombreDepartamento);
-                                abb.insertar(v); // Solo ABB en este bloque
+                                abb.insertar(v); 
                             }
                         }
                     } catch (IOException e) {
@@ -876,7 +862,6 @@ public class principal extends javax.swing.JFrame {
         long finABB = System.nanoTime();
         TiempoABB.setText((finABB - inicioABB) / 1_000_000 + " ms");
 
-        // MEDIR TIEMPO EN AVL
         long inicioAVL = System.nanoTime();
 
         for (File carpeta : carpetas) {
@@ -893,7 +878,7 @@ public class principal extends javax.swing.JFrame {
                             String[] datos = linea.split(",");
                             if (datos.length >= 6) {
                                 Vehiculo v = new Vehiculo(datos, carpeta.getName());
-                                avl.insertar(v); // Solo AVL en este bloque
+                                avl.insertar(v);
                             }
                         }
                     } catch (IOException e) {
@@ -915,13 +900,13 @@ public class principal extends javax.swing.JFrame {
         return;
     }
 
-    String seleccionado = (String) comboDepartamento.getSelectedItem(); // <- Departamento activo
+    String seleccionado = (String) comboDepartamento.getSelectedItem();
 
     long inicio = System.nanoTime();
     Vehiculo encontrado = avl.buscar(placaBuscar);
     long fin = System.nanoTime();
 
-    modelo.setRowCount(0); // Limpiar tabla antes de mostrar
+    modelo.setRowCount(0);
 
     if (encontrado != null) {
         if (encontrado.getDepartamento().equalsIgnoreCase(seleccionado)) {
@@ -931,23 +916,23 @@ public class principal extends javax.swing.JFrame {
                 encontrado.getMultas(), encontrado.getTraspasos()
             });
 
-            JOptionPane.showMessageDialog(this, "Vehículo encontrado");
+            JOptionPane.showMessageDialog(this, "Vehiculo encontrado");
         } else {
-            JOptionPane.showMessageDialog(this, "Vehículo encontrado, pero pertenece al departamento: " + encontrado.getDepartamento());
+            JOptionPane.showMessageDialog(this, "Vehiculo encontrado, pero pertenece al departamento: " + encontrado.getDepartamento());
         }
     } else {
-        JOptionPane.showMessageDialog(this, "Vehículo no encontrado.");
+        JOptionPane.showMessageDialog(this, "Vehiculo no encontrado.");
     }
-    VehiculoIng.setText(""); // Limpia el campo después de la búsqueda
+    VehiculoIng.setText(""); 
 
 }
        
     public void recargarTabla() {
     String seleccionado = (String) comboDepartamento.getSelectedItem();
     List<Vehiculo> lista = new ArrayList<>();
-    avl.inorden(lista); // O abb.inorden(lista), según uses
+    avl.inorden(lista); 
 
-    modelo.setRowCount(0); // Limpiar tabla
+    modelo.setRowCount(0); 
 
     for (Vehiculo v : lista) {
         if (v.getDepartamento().equalsIgnoreCase(seleccionado)) {

@@ -153,7 +153,6 @@ public class ModificarVehiculo extends javax.swing.JPanel {
     File archivo = new File(carpeta, dep + "/" + dep + "_vehiculos.txt");
 
     try {
-        // Leer todas las líneas del archivo
         java.util.List<String> lineas = new java.util.ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
@@ -169,14 +168,13 @@ public class ModificarVehiculo extends javax.swing.JPanel {
             }
         }
 
-        // Reescribir el archivo con las líneas modificadas
         try (FileWriter fw = new FileWriter(archivo, false)) {
             for (String l : lineas) {
                 fw.write(l + "\n");
             }
         }
 
-        JOptionPane.showMessageDialog(this, "Vehículo modificado correctamente.");
+        JOptionPane.showMessageDialog(this, "Vehiculo modificado correctamente.");
         Vehiculo nodo = mainApp.avl.buscar(placaOriginal);
         if (nodo != null) {
         nodo.setMarca(nuevaMarca);

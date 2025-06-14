@@ -224,15 +224,13 @@ public class NuevoVehiculo extends javax.swing.JPanel {
     int traspasos = Integer.parseInt(TraspasoVehiculoNuevo.getText().trim());
     String departamento = (String) ElegirDep.getSelectedItem();
 
-    // Crear array compatible con tu constructor Vehiculo(String[] datos, String departamento)
     String[] datos = {placa, dpi, nombre, marca, modelo, String.valueOf(anio), String.valueOf(multas), String.valueOf(traspasos)};
     Vehiculo nuevo = new Vehiculo(datos, departamento);
 
-    // Insertar en árboles
     mainApp.abb.insertar(nuevo);
     mainApp.avl.insertar(nuevo);
     File carpeta = mainApp.carpetaSeleccionada;
-// asegúrate que esté accesible
+
     File archivo = new File(carpeta, departamento + "/" + departamento + "_vehiculos.txt");
     System.out.println("Intentando guardar en: " + archivo.getAbsolutePath());
     System.out.println("Existe carpeta: " + carpeta.exists());
@@ -242,11 +240,11 @@ public class NuevoVehiculo extends javax.swing.JPanel {
         fw.write(String.join(",", datos) + "\n");
         JOptionPane.showMessageDialog(this, "Vehículo agregado correctamente.");
     } catch (IOException ex) {
-         ex.printStackTrace(); // ← esto mostrará el error exacto en consola
+         ex.printStackTrace(); 
     JOptionPane.showMessageDialog(this, "Error al guardar en archivo: " + ex.getMessage());
     }
 
-    this.setVisible(false); // cerrar panel
+    this.setVisible(false); 
     
     
     }//GEN-LAST:event_GuardarDatosActionPerformed

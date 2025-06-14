@@ -48,7 +48,7 @@ public class ListaMultasDoble {
             boolean primera = true;
             while ((linea = br.readLine()) != null) {
                 if (primera) {
-                    primera = false; // omitir encabezado
+                    primera = false; 
                     continue;
                 }
                 String[] partes = linea.split(",");
