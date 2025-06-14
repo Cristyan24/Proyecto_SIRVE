@@ -1,6 +1,8 @@
 
 package prograproyecto;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,7 +10,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -89,6 +93,8 @@ public class principal extends javax.swing.JFrame {
         TiempoAVL = new javax.swing.JTextField();
         LabelTiempoAVL = new javax.swing.JLabel();
         LabelTiempoABB = new javax.swing.JLabel();
+        MostrarABB = new javax.swing.JButton();
+        MostrarAVL = new javax.swing.JButton();
         PanelContenido = new javax.swing.JPanel();
         PanelTraspasos = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -369,6 +375,19 @@ public class principal extends javax.swing.JFrame {
         LabelTiempoABB.setForeground(new java.awt.Color(255, 255, 255));
         LabelTiempoABB.setText("Tiempo de ejecucion en ABB:");
         jPanel1.add(LabelTiempoABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, -1, -1));
+
+        MostrarABB.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MostrarABB.setText("Arbol ABB");
+        jPanel1.add(MostrarABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 470, 110, 40));
+
+        MostrarAVL.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MostrarAVL.setText("Arbol AVL");
+        MostrarAVL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MostrarAVLActionPerformed(evt);
+            }
+        });
+        jPanel1.add(MostrarAVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, 110, 40));
 
         PanelContenido.setBackground(new java.awt.Color(51, 255, 51));
 
@@ -803,6 +822,14 @@ public class principal extends javax.swing.JFrame {
 
     TraspasoIng.setText("");
     }//GEN-LAST:event_BuscarTraspasoActionPerformed
+
+    private void MostrarAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarAVLActionPerformed
+        MostrarAVL.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent evt) {
+        mostrarImagenAVL();
+    }
+});
+    }//GEN-LAST:event_MostrarAVLActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
@@ -928,6 +955,29 @@ public class principal extends javax.swing.JFrame {
     }
 }
 
+        public void mostrarImagenAVL() {
+    try {
+        String dotPath = "arbolAVL.dot";
+        String imgPath = "arbolAVL.png";
+
+        // 1. Escribir archivo DOT
+        FileWriter fw = new FileWriter(dotPath);
+        fw.write(avl.generarDotAVL()); // método que ya tienes en ArbolAVL
+        fw.close();
+
+        // 2. Ejecutar Graphviz (Asegúrate que dot.exe esté en PATH)
+        ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng", dotPath, "-o", imgPath);
+        pb.start().waitFor();
+
+        // 3. Mostrar imagen en un JLabel
+        ImageIcon icon = new ImageIcon(imgPath);
+        JLabel label = new JLabel(icon);
+        JOptionPane.showMessageDialog(this, label, "Árbol AVL", JOptionPane.PLAIN_MESSAGE);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error generando el gráfico: " + e.getMessage());
+    }
+}
 
 
 
@@ -996,6 +1046,8 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JButton ModificarMulta;
     private javax.swing.JButton ModificarTraspaso;
     private javax.swing.JButton ModificarVehiculo;
+    private javax.swing.JButton MostrarABB;
+    private javax.swing.JButton MostrarAVL;
     private javax.swing.JTextField MultaIng;
     private javax.swing.JButton MultasTabla;
     private javax.swing.JPanel PanelContenido;

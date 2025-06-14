@@ -143,6 +143,31 @@ private NodoAVL encontrarMinimo(NodoAVL nodo) {
     return nodo;
 }
 
+    public String generarDotAVL() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("digraph AVL {\n");
+    sb.append("node [shape=circle];\n");
+    generarDotRec(raiz, sb);
+    sb.append("}\n");
+    return sb.toString();
+}
+
+private void generarDotRec(NodoAVL nodo, StringBuilder sb) {
+    if (nodo != null) {
+        sb.append("\"").append(nodo.vehiculo.getPlaca()).append("\";").append("\n");
+        if (nodo.izquierda != null) {
+            sb.append("\"").append(nodo.vehiculo.getPlaca()).append("\" -> ")
+              .append("\"").append(nodo.izquierda.vehiculo.getPlaca()).append("\";").append("\n");
+        }
+        if (nodo.derecha != null) {
+            sb.append("\"").append(nodo.vehiculo.getPlaca()).append("\" -> ")
+              .append("\"").append(nodo.derecha.vehiculo.getPlaca()).append("\";").append("\n");
+        }
+        generarDotRec(nodo.izquierda, sb);
+        generarDotRec(nodo.derecha, sb);
+    }
+}
+
 
     
 }
