@@ -138,7 +138,6 @@ private NodoAVL eliminarRec(NodoAVL nodo, String placa) {
         nodo.derecha = eliminarRec(nodo.derecha, sucesor.vehiculo.getPlaca());
     }
 
-    // Aquí puedes aplicar balanceo si es AVL
     return nodo;
 }
 
@@ -149,41 +148,39 @@ private NodoAVL encontrarMinimo(NodoAVL nodo) {
     return nodo;
 }
 
-        public void generarDotAVL(NodoAVL nodo, BufferedWriter writer) throws IOException {
+        public void generarArbolAVL(NodoAVL nodo, BufferedWriter writer) throws IOException {
     if (nodo != null) {
         String etiqueta = nodo.vehiculo.getPlaca();
         writer.write("\"" + etiqueta + "\" [label=\"" + etiqueta + "\"];\n");
 
         if (nodo.izquierda != null) {
             writer.write("\"" + etiqueta + "\" -> \"" + nodo.izquierda.vehiculo.getPlaca() + "\";\n");
-            generarDotAVL(nodo.izquierda, writer);
+            generarArbolAVL(nodo.izquierda, writer);
         }
         if (nodo.derecha != null) {
             writer.write("\"" + etiqueta + "\" -> \"" + nodo.derecha.vehiculo.getPlaca() + "\";\n");
-            generarDotAVL(nodo.derecha, writer);
+            generarArbolAVL(nodo.derecha, writer);
         }
     }
 }
         
-        public void exportarAVLComoImagen() {
+        public void MostrarArbolAVL() {
     try {
         BufferedWriter writer = new BufferedWriter(new FileWriter("arbolAVL.dot"));
         writer.write("digraph G {\n");
         writer.write("node [shape=ellipse, style=filled, color=lightgreen];\n");
 
         if (raiz != null) {
-            generarDotAVL(raiz, writer);
+            generarArbolAVL(raiz, writer);
         }
 
         writer.write("}\n");
         writer.close();
 
-        // Llamar a Graphviz
         Process p = Runtime.getRuntime().exec("\"C:\\Program Files\\Graphviz\\bin\\dot.exe\" -Tpng arbolAVL.dot -o arbolAVL.png");
 
         p.waitFor();
 
-        // Abrir la imagen
         Desktop.getDesktop().open(new File("arbolAVL.png"));
     } catch (IOException | InterruptedException e) {
         JOptionPane.showMessageDialog(null, "Error al generar el gráfico AVL: " + e.getMessage());

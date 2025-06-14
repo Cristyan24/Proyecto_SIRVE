@@ -831,11 +831,11 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BuscarTraspasoActionPerformed
 
     private void MostrarAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarAVLActionPerformed
-       avl.exportarAVLComoImagen();
+       avl.MostrarArbolAVL();
     }//GEN-LAST:event_MostrarAVLActionPerformed
 
     private void MostrarABBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarABBActionPerformed
-        abb.exportarABBComoImagen();
+        abb.MostrarArbolABB();
     }//GEN-LAST:event_MostrarABBActionPerformed
         
    

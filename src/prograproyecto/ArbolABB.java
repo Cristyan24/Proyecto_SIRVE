@@ -76,42 +76,40 @@ private NodoABB encontrarMin(NodoABB nodo) {
 }
 
     
-    public void exportarABBComoImagen() {
+    public void MostrarArbolABB() {
     try {
         BufferedWriter writer = new BufferedWriter(new FileWriter("arbolABB.dot"));
         writer.write("digraph G {\n");
         writer.write("node [shape=ellipse, style=filled, color=lightblue];\n");
 
         if (raiz != null) {
-            generarDotABB(raiz, writer);
+            generarArbolABB(raiz, writer);
         }
         writer.write("}\n");
 
         writer.close();
 
-        // Asegúrate de ajustar la ruta si Graphviz está en otra ubicación
         Process p = Runtime.getRuntime().exec("\"C:\\Program Files\\Graphviz\\bin\\dot.exe\" -Tpng arbolABB.dot -o arbolABB.png");
         p.waitFor();
 
-        // Abre la imagen generada
         Desktop.getDesktop().open(new File("arbolABB.png"));
     } catch (IOException | InterruptedException e) {
         JOptionPane.showMessageDialog(null, "Error al generar el gráfico ABB: " + e.getMessage());
     }
 }
 
-    private void generarDotABB(NodoABB nodo, BufferedWriter writer) throws IOException {
+    private void generarArbolABB(NodoABB nodo, BufferedWriter writer) throws IOException {
     if (nodo != null) {
-        String etiqueta = nodo.vehiculo.getPlaca(); // Cambiado de nodo.placa
+        String etiqueta = nodo.vehiculo.getPlaca();
         writer.write("\"" + etiqueta + "\" [label=\"" + etiqueta + "\"];\n");
 
         if (nodo.izquierda != null) {
             writer.write("\"" + etiqueta + "\" -> \"" + nodo.izquierda.vehiculo.getPlaca() + "\";\n");
-            generarDotABB(nodo.izquierda, writer);
+            generarArbolABB(nodo.izquierda, writer);
         }
         if (nodo.derecha != null) {
             writer.write("\"" + etiqueta + "\" -> \"" + nodo.derecha.vehiculo.getPlaca() + "\";\n");
-               generarDotABB(nodo.derecha, writer);
+               generarArbolABB(nodo.derecha, writer);
 }
 
     }
