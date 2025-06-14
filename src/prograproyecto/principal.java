@@ -286,7 +286,7 @@ public class principal extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(ModificarTraspaso)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +304,7 @@ public class principal extends javax.swing.JFrame {
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 150, 240));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 160, 240));
         jPanel1.add(VehiculoIng, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 80, 180, -1));
 
         BuscarVehiculo.setText("Buscar");
@@ -652,15 +652,68 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_EliminarVehiculoActionPerformed
 
     private void BuscarMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarMultaActionPerformed
-        // TODO add your handling code here:
+        String placa = MultaIng.getText().trim();
+    String dep = comboDepartamento.getSelectedItem().toString();
+
+    if (placa.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese una placa para buscar.");
+        return;
+    }
+
+    File archivo = new File(carpetaSeleccionada, dep + "/" + dep + "_multas.txt");
+    ListaMultasDoble lista = new ListaMultasDoble();
+
+    try {
+        lista.cargarDesdeArchivo(archivo);
+        List<Multa> resultados = lista.buscarPorPlaca(placa);
+
+        DefaultTableModel modeloMulta = (DefaultTableModel) TablaMultas.getModel();
+        modeloMulta.setRowCount(0); // Limpiar la tabla antes
+
+        for (Multa m : resultados) {
+            modeloMulta.addRow(new Object[]{
+                m.getPlaca(), m.getFecha(), m.getDescripcion(), m.getMonto()
+            });
+        }
+
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron multas para esa placa.");
+        }
+        
+        MultaIng.setText("");
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al leer el archivo de multas.");
+    }
     }//GEN-LAST:event_BuscarMultaActionPerformed
 
     private void MultasTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MultasTablaActionPerformed
+    String departamento = (String) comboDepartamento.getSelectedItem();
+    File archivo = new File(carpetaSeleccionada, departamento + "/" + departamento + "_multas.txt");
+
+    DefaultTableModel modeloMultas = (DefaultTableModel) TablaMultas.getModel();
+    modeloMultas.setRowCount(0); // Limpiar
+
+    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            if (linea.toLowerCase().contains("placa") && linea.toLowerCase().contains("fecha")) continue;
+
+            String[] partes = linea.split(",");
+            if (partes.length == 4) {
+                modeloMultas.addRow(new Object[]{partes[0], partes[1], partes[2], partes[3]});
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al leer archivo de multas.");
+    }      
+        
     PanelContenido.setVisible(true);
     PanelMultas.setVisible(true);
     PanelTraspasos.setVisible(false);
     jScrollPane1.setVisible(false); // Oculta tabla vehículos
-
+    PanelRegistros.removeAll();
+    
     VehiculoIng.setVisible(false);
     BuscarVehiculo.setVisible(false);
     MultaIng.setVisible(true);
@@ -670,11 +723,35 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_MultasTablaActionPerformed
 
     private void TraspasosTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TraspasosTablaActionPerformed
+    String departamento = (String) comboDepartamento.getSelectedItem();
+    File archivo = new File(carpetaSeleccionada, departamento + "/" + departamento + "_traspasos.txt");
+
+    DefaultTableModel modeloTraspasos = (DefaultTableModel) TablaTraspasos.getModel();
+    modeloTraspasos.setRowCount(0); // Limpiar la tabla antes de cargar
+
+    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            if (linea.toLowerCase().contains("placa") && linea.toLowerCase().contains("fecha")) continue;
+
+            String[] partes = linea.split(",");
+            if (partes.length == 6) {
+                modeloTraspasos.addRow(new Object[]{
+                    partes[0], partes[1], partes[2],
+                    partes[3], partes[4], partes[5]
+                });
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al leer archivo de traspasos.");
+    }
+        
     PanelContenido.setVisible(true);
     PanelMultas.setVisible(false);
     PanelTraspasos.setVisible(true);
     jScrollPane1.setVisible(false); // Oculta tabla vehículos
-
+    PanelRegistros.removeAll();
+    
     VehiculoIng.setVisible(false);
     BuscarVehiculo.setVisible(false);
     MultaIng.setVisible(false);
