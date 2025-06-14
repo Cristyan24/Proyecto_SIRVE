@@ -380,6 +380,11 @@ public class principal extends javax.swing.JFrame {
 
         MostrarABB.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         MostrarABB.setText("Arbol ABB");
+        MostrarABB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MostrarABBActionPerformed(evt);
+            }
+        });
         jPanel1.add(MostrarABB, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, 110, 40));
 
         MostrarAVL.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -828,6 +833,10 @@ public class principal extends javax.swing.JFrame {
     private void MostrarAVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarAVLActionPerformed
        avl.exportarAVLComoImagen();
     }//GEN-LAST:event_MostrarAVLActionPerformed
+
+    private void MostrarABBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarABBActionPerformed
+        abb.exportarABBComoImagen();
+    }//GEN-LAST:event_MostrarABBActionPerformed
         
    
     public void cargarTodosLosArchivos(File carpetaRaiz) {
