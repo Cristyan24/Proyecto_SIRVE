@@ -9,23 +9,23 @@ package prograproyecto;
  * @author user
  */
 public class Traspaso {
+    private String departamento;
     private String placa;
     private String dpiAnterior;
     private String nombreAnterior;
     private String fecha;
     private String dpiNuevo;
     private String nombreNuevo;
-    private String departamento;
 
     public Traspaso(String placa, String dpiAnterior, String nombreAnterior, String fecha, String dpiNuevo, String nombreNuevo, String departamento) {
-        this.placa = placa;
-        this.dpiAnterior = dpiAnterior;
-        this.nombreAnterior = nombreAnterior;
-        this.fecha = fecha;
-        this.dpiNuevo = dpiNuevo;
-        this.nombreNuevo = nombreNuevo;
-        this.departamento = departamento;
-    }
+    this.placa = placa;
+    this.dpiAnterior = dpiAnterior;
+    this.nombreAnterior = nombreAnterior;
+    this.fecha = fecha;
+    this.dpiNuevo = dpiNuevo;
+    this.nombreNuevo = nombreNuevo;
+    this.departamento = departamento;
+}
 
     public String getPlaca() {
         return placa;

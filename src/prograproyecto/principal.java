@@ -775,21 +775,29 @@ public class principal extends javax.swing.JFrame {
         return;
     }
 
-    List<Traspaso> encontrados = listaTraspasos.buscarPorPlaca(placaBuscar);
     DefaultTableModel modeloTraspasos = (DefaultTableModel) TablaTraspasos.getModel();
     modeloTraspasos.setRowCount(0);
 
-    boolean encontradoEnDepartamento = false;
+    boolean encontrado = false;
 
-    for (Traspaso t : encontrados) {
-        modeloTraspasos.addRow(new Object[]{
-            t.getPlaca(), t.getDpiAnterior(), t.getNombreAnterior(),
-            t.getFecha(), t.getDpiNuevo(), t.getNombreNuevo()
-        });
-        encontradoEnDepartamento = true;
+    // ← Asegúrate que esta listaTraspasos esté declarada correctamente en principal.java
+    List<Traspaso> resultados = listaTraspasos.buscarPorPlaca(placaBuscar);
+
+    for (Traspaso t : resultados) {
+        if (t.getDepartamento().equalsIgnoreCase(departamentoActual)) {
+            modeloTraspasos.addRow(new Object[]{
+                t.getPlaca(),
+                t.getDpiAnterior(),
+                t.getNombreAnterior(),
+                t.getFecha(),
+                t.getDpiNuevo(),
+                t.getNombreNuevo()
+            });
+            encontrado = true;
+        }
     }
 
-    if (!encontradoEnDepartamento) {
+    if (!encontrado) {
         JOptionPane.showMessageDialog(this, "No hay traspasos para esta placa en este departamento.");
     }
 
